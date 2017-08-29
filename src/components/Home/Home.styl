@@ -26,8 +26,26 @@
   width: 26px
 
 // Date picker
-.datepicker
-  background-color: $tundora
-  height: 34px
-  margin: 10px 0
-  width: 100%
+.wrapper
+  display: flex
+  flex: 1
+  overflow: auto
+
+  .datepicker
+    align-items: center
+    background-color: $tundora
+    box-sizing: border-box
+    display: inline-flex
+    font-size: 14px
+    height: $datepicker-height
+    list-style: none
+    margin: 10px 0
+    padding: 0
+
+    li
+      color: $white
+      line-height: $datepicker-height
+      padding: 0 15px
+      
+    .datepicker__all
+      font-size: 20px

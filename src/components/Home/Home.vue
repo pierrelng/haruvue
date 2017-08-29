@@ -7,16 +7,45 @@
     </form>
 
     <!-- Date picker -->
-    <div class="datepicker">
-      
+    <div class="wrapper">
+      <ul class="datepicker">
+        <li class="datepicker__all">∞</li>
+        <li class="datepicker__today">Auj</li>
+        <li class="datepicker__other">Mercredi</li>
+        <li class="datepicker__other">Jeudi</li>
+        <li class="datepicker__other">Vendredi</li>
+        <li class="datepicker__other">Samedi</li>
+      </ul>
+      <!-- <span>{{ now }}</span> -->
     </div>
+
+    <event-list></event-list>
 
   </div>
 </template>
 
 <script>
+import moment from 'moment';
+import EventList from '@/components/Home/EventList/EventList';
+
 export default {
   name: 'home',
+  components: {
+    'event-list': EventList,
+  },
+  data() {
+    return {
+      now: '',
+    };
+  },
+  created() {
+    setInterval(this.getNow, 1000);
+  },
+  methods: {
+    getNow() {
+      this.now = moment().format('MMMM Do YYYY, h:mm:ss a');
+    },
+  },
 };
 </script>
 
