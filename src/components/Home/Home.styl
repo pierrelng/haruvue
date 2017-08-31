@@ -9,7 +9,7 @@
   border: 0
   border-radius: 8px
   font-family: 'Open Sans', sans-serif
-  font-size: 15px
+  font-size: .9em
   height: 24px
   margin-right: 15px
   padding: 0 10px
@@ -26,26 +26,20 @@
   width: 26px
 
 // Date picker
-.wrapper
-  display: flex
-  flex: 1
-  overflow: auto
+.datepicker
+  align-items: center
+  background-color: $tundora
+  // box-sizing: border-box
+  font-size: .9em
+  height: $datepicker-height
+  list-style: none
+  margin: 10px 0
+  padding: 0
 
-  .datepicker
-    align-items: center
-    background-color: $tundora
-    box-sizing: border-box
-    display: inline-flex
-    font-size: 14px
-    height: $datepicker-height
-    list-style: none
-    margin: 10px 0
-    padding: 0
+  li
+    color: $white
+    line-height: $datepicker-height
+    padding: 0 15px
 
-    li
-      color: $white
-      line-height: $datepicker-height
-      padding: 0 15px
-      
-    .datepicker__all
-      font-size: 20px
+  .datepicker__all
+    font-size: 1.4em
