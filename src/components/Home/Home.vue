@@ -7,15 +7,17 @@
     </form>
 
     <!-- Date picker -->
-    <!-- <div class="wrapper"> -->
     <ul class="datepicker scroll-x-wrapper">
-      <li class="datepicker__all scroll-x-item">∞</li>
+      <li class="datepicker__all scroll-x-item">
+        <svg viewBox="0 0 200 200" style="width: 25px; height: 25px">
+          <path fill="none" stroke="#FFFFFF" stroke-width="7" d="M100,100 C200,0 200,200 100,100 C0,0 0,200 100,100z" />
+        </svg>
+      </li>
       <li class="scroll-x-item">Auj.</li>
       <li class="scroll-x-item">Dem.</li>
       <li class="scroll-x-item" v-for="day in days">{{ day }}</li>
       <li class="scroll-x-item">Semaine suivante</li>
     </ul>
-    <!-- </div> -->
 
     <event-list></event-list>
 
