@@ -2,7 +2,7 @@
   <div>
     <ul class="list"
         v-infinite-scroll="loadMore"
-        infinite-scroll-disabled="loading"
+        infinite-scroll-disabled="infiniteScrollDisabled"
         infinite-scroll-distance="100"
         infinite-scroll-immediate-check="false">
       <li v-for="event in events">
@@ -18,9 +18,10 @@
         </a>
       </li>
     </ul>
-    <p v-show="loading" class="spinner">
+    <p v-show="showSpinner" class="spinner">
       <mt-spinner type="triple-bounce"></mt-spinner>
     </p>
+    <p v-show="noEventsFound">Fin de la liste</p>
   </div>
 </template>
 
@@ -29,11 +30,15 @@ import axios from 'axios';
 
 export default {
   name: 'eventList',
+  props: ['updateList'],
   data() {
     return {
       events: [],
+      noEventsFound: false,
       offset: 0,
-      loading: false,
+      infiniteScrollDisabled: false,
+      showSpinner: false,
+      selectedDay: this.updateList,
     };
   },
   created() {
@@ -41,23 +46,42 @@ export default {
   },
   methods: {
     getEvents() {
-      axios.get(`https://pierrelange.com/wp-json/haru/v1/events?offset=${this.offset}`)
+      axios.get(`https://pierrelange.com/wp-json/haru/v1/events?offset=0&selected_day=${this.updateList}`)
       .then((response) => {
+        this.noEventsFound = false;
         this.events = response.data;
+      })
+      .catch(() => {
+        this.noEventsFound = true;
       });
     },
     loadMore() {
-      this.loading = true;
+      this.infiniteScrollDisabled = true;
+      this.showSpinner = true;
       setTimeout(() => {
         this.offset = this.events.length;
-        axios.get(`https://pierrelange.com/wp-json/haru/v1/events?offset=${this.offset}`)
+        axios.get(`https://pierrelange.com/wp-json/haru/v1/events?offset=${this.offset}&selected_day=${this.updateList}`)
         .then((response) => {
+          this.noEventsFound = false;
           response.data.forEach((event) => {
             this.events.push(event);
           });
-          this.loading = false;
+          this.infiniteScrollDisabled = false;
+          this.showSpinner = false;
+        })
+        .catch(() => {
+          this.showSpinner = false;
+          this.noEventsFound = true;
+          this.offset = 0;
         });
       }, 5);
+    },
+  },
+  watch: {
+    updateList() {
+      this.infiniteScrollDisabled = false;
+      this.getEvents();
+      console.log(this.updateList);
     },
   },
 };
