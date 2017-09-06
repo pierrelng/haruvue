@@ -15,11 +15,11 @@
       </li>
       <li class="scroll-x-item" v-on:click="updateDay('today')">Auj.</li>
       <li class="scroll-x-item" v-on:click="updateDay('tomorrow')">Dem.</li>
-      <li class="scroll-x-item" v-for="(day, index) in days" v-bind:id="index" v-on:click="updateDay('temp')">{{ [day, 'DD'] | moment('dddd') }}</li>
-      <li class="scroll-x-item" v-on:click="updateDay">Semaine suivante</li>
+      <li class="scroll-x-item" v-for="(day, index) in days"  v-on:click="updateDay(index)">{{ [day, 'DD'] | moment('dddd') }}</li>
+      <li class="scroll-x-item">Semaine suivante</li>
     </ul>
 
-    <event-list v-bind:update-list="selectedDay"></event-list>
+    <event-list v-bind:selected-day="selectedDay"></event-list>
 
   </div>
 </template>
@@ -35,19 +35,14 @@ export default {
   },
   data() {
     return {
-      now: '',
       days: [],
       selectedDay: '',
     };
   },
   created() {
-    // setInterval(this.getNow, 1000);
     this.setDays();
   },
   methods: {
-    getNow() {
-      this.now = moment().format('MMMM DD YYYY, h:mm:ss a');
-    },
     setDays() {
       const sunday = moment().endOf('week');
       const daysUntilSunday = sunday.diff(moment(), 'days');
@@ -62,20 +57,23 @@ export default {
           this.days.push(moment().add(i, 'days').format('DD'));
         }
       }
-      // console.log(this.days);
     },
-    updateDay(str) {
-      if (str === 'all') {
-        this.selectedDay = '';
-      } else if (str === 'today') {
-        this.selectedDay = moment().format('DD'); // quid quand une semaine est à cheval sur 2 mois ?
-      } else if (str === 'tomorrow') {
-        this.selectedDay = moment().add(1, 'days').format('DD');
-      } else if (str === 'temp') {
-        this.selectedDay = this.days[event.target.id];
+    updateDay(target) {
+      this.setDays();
+      switch (target) {
+        case 'all':
+          this.selectedDay = '';
+          break;
+        case 'today':
+          this.selectedDay = moment().format('DD'); // quid quand une semaine est à cheval sur 2 mois ?
+          break;
+        case 'tomorrow':
+          this.selectedDay = moment().add(1, 'days').format('DD');
+          break;
+        default:
+          this.selectedDay = this.days[target];
       }
-      // this.selectedDay = event.target.id;
-      // console.log(this.selectedDay);
+      console.log(target);
     },
   },
 };

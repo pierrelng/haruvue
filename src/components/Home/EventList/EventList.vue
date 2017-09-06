@@ -30,7 +30,7 @@ import axios from 'axios';
 
 export default {
   name: 'eventList',
-  props: ['updateList'],
+  props: ['selectedDay'],
   data() {
     return {
       events: [],
@@ -38,7 +38,6 @@ export default {
       offset: 0,
       infiniteScrollDisabled: false,
       showSpinner: false,
-      selectedDay: this.updateList,
     };
   },
   created() {
@@ -46,7 +45,7 @@ export default {
   },
   methods: {
     getEvents() {
-      axios.get(`https://pierrelange.com/wp-json/haru/v1/events?offset=0&selected_day=${this.updateList}`)
+      axios.get(`https://pierrelange.com/wp-json/haru/v1/events?offset=0&selected_day=${this.selectedDay}`)
       .then((response) => {
         this.noEventsFound = false;
         this.events = response.data;
@@ -60,14 +59,14 @@ export default {
       this.showSpinner = true;
       setTimeout(() => {
         this.offset = this.events.length;
-        axios.get(`https://pierrelange.com/wp-json/haru/v1/events?offset=${this.offset}&selected_day=${this.updateList}`)
+        axios.get(`https://pierrelange.com/wp-json/haru/v1/events?offset=${this.offset}&selected_day=${this.selectedDay}`)
         .then((response) => {
           this.noEventsFound = false;
           response.data.forEach((event) => {
             this.events.push(event);
           });
-          this.infiniteScrollDisabled = false;
           this.showSpinner = false;
+          this.infiniteScrollDisabled = false;
         })
         .catch(() => {
           this.showSpinner = false;
@@ -78,10 +77,9 @@ export default {
     },
   },
   watch: {
-    updateList() {
+    selectedDay() {
       this.infiniteScrollDisabled = false;
       this.getEvents();
-      console.log(this.updateList);
     },
   },
 };
