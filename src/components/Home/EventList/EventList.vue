@@ -45,14 +45,20 @@ export default {
   },
   methods: {
     getEvents() {
-      axios.get(`https://pierrelange.com/wp-json/haru/v1/events?offset=0&selected_day=${this.selectedDay}`)
-      .then((response) => {
-        this.noEventsFound = false;
-        this.events = response.data;
-      })
-      .catch(() => {
-        this.noEventsFound = true;
-      });
+      this.events = [];
+      this.showSpinner = true;
+      setTimeout(() => {
+        axios.get(`https://pierrelange.com/wp-json/haru/v1/events?offset=0&selected_day=${this.selectedDay}`)
+        .then((response) => {
+          this.noEventsFound = false;
+          this.events = response.data;
+          this.showSpinner = false;
+        })
+        .catch(() => {
+          this.showSpinner = false;
+          this.noEventsFound = true;
+        });
+      }, 5);
     },
     loadMore() {
       this.infiniteScrollDisabled = true;

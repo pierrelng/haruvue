@@ -8,14 +8,14 @@
 
     <!-- Date picker -->
     <ul class="datepicker scroll-x-wrapper">
-      <li class="datepicker__all scroll-x-item" v-on:click="updateDay('all')">
+      <li class="datepicker__all scroll-x-item" v-bind:class="{ active: isActive === 'all' }" v-on:click="updateDay('all')">
         <svg viewBox="0 0 200 200" style="width: 25px; height: 25px">
           <path fill="none" stroke="#FFFFFF" stroke-width="7" d="M100,100 C200,0 200,200 100,100 C0,0 0,200 100,100z" />
         </svg>
       </li>
-      <li class="scroll-x-item" v-on:click="updateDay('today')">Auj.</li>
-      <li class="scroll-x-item" v-on:click="updateDay('tomorrow')">Dem.</li>
-      <li class="scroll-x-item" v-for="(day, index) in days"  v-on:click="updateDay(index)">{{ [day, 'DD'] | moment('dddd') }}</li>
+      <li class="scroll-x-item" v-bind:class="{ active: isActive === 'today' }" v-on:click="updateDay('today')">Auj.</li>
+      <li class="scroll-x-item" v-bind:class="{ active: isActive === 'tomorrow' }" v-on:click="updateDay('tomorrow')">Dem.</li>
+      <li class="scroll-x-item" v-bind:class="{ active: isActive === index }" v-for="(day, index) in days"  v-on:click="updateDay(index)">{{ [day, 'DD'] | moment('dddd') }}</li>
       <li class="scroll-x-item">Semaine suivante</li>
     </ul>
 
@@ -37,6 +37,7 @@ export default {
     return {
       days: [],
       selectedDay: '',
+      isActive: 'all',
     };
   },
   created() {
@@ -44,6 +45,7 @@ export default {
   },
   methods: {
     setDays() {
+      this.days = [];
       const sunday = moment().endOf('week');
       const daysUntilSunday = sunday.diff(moment(), 'days');
       if (daysUntilSunday > 1) {
@@ -63,17 +65,20 @@ export default {
       switch (target) {
         case 'all':
           this.selectedDay = '';
+          this.isActive = target;
           break;
         case 'today':
           this.selectedDay = moment().format('DD'); // quid quand une semaine est à cheval sur 2 mois ?
+          this.isActive = target;
           break;
         case 'tomorrow':
           this.selectedDay = moment().add(1, 'days').format('DD');
+          this.isActive = target;
           break;
         default:
           this.selectedDay = this.days[target];
+          this.isActive = target;
       }
-      console.log(target);
     },
   },
 };
