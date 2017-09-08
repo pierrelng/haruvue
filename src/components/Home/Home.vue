@@ -16,7 +16,7 @@
       <li class="scroll-x-item" v-bind:class="{ active: isActive === 'today' }" v-on:click="updateDay('today')">Auj.</li>
       <li class="scroll-x-item" v-bind:class="{ active: isActive === 'tomorrow' }" v-on:click="updateDay('tomorrow')">Dem.</li>
       <li class="scroll-x-item" v-bind:class="{ active: isActive === index }" v-for="(day, index) in days"  v-on:click="updateDay(index)">
-        <span v-if="!day.fullWord">{{ day.name }} {{ day.number }}/{{ day.month }}</span>
+        <span v-if="!day.fullWord">{{ day.name }}. {{ day.number }}/{{ day.month }}</span>
         <span v-else>{{ day.name }}</span>
       </li>
       <li class="scroll-x-item" v-on:click="addNextWeek">Semaine suivante</li>
@@ -87,15 +87,15 @@ export default {
           this.isActive = target;
           break;
         case 'today':
-          this.selectedDay = moment().format('DD'); // quid quand une semaine est à cheval sur 2 mois ?
+          this.selectedDay = moment().format('YYYY-MM-DD'); // quid quand une semaine est à cheval sur 2 mois ?
           this.isActive = target;
           break;
         case 'tomorrow':
-          this.selectedDay = moment().add(1, 'days').format('DD');
+          this.selectedDay = moment().add(1, 'days').format('YYYY-MM-DD');
           this.isActive = target;
           break;
         default:
-          this.selectedDay = this.days[target].number;
+          this.selectedDay = this.days[target].datetime.format('YYYY-MM-DD');
           this.isActive = target;
       }
     },
