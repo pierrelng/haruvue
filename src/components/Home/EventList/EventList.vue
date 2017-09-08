@@ -21,7 +21,7 @@
     <p v-show="showSpinner" class="spinner">
       <mt-spinner type="triple-bounce"></mt-spinner>
     </p>
-    <p v-show="noEventsFound">Fin de la liste</p>
+    <p v-show="noEventsFound" style="text-align: center;">Fin de la liste</p>
   </div>
 </template>
 
@@ -47,6 +47,7 @@ export default {
     getEvents() {
       this.events = [];
       this.showSpinner = true;
+      this.noEventsFound = false;
       setTimeout(() => {
         axios.get(`https://pierrelange.com/wp-json/haru/v1/events?offset=0&selected_day=${this.selectedDay}`)
         .then((response) => {

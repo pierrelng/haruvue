@@ -1,10 +1,10 @@
 <template>
   <div>
     <!-- Search bar -->
-    <form class="form" action="#" method="POST">
+    <!-- <form class="form" action="#" method="POST">
       <input class="form__input" type="search" name="main_search" value="" placeholder="chill, house, gratuit...">
       <input class="form__submit" type="submit" value="">
-    </form>
+    </form> -->
 
     <!-- Date picker -->
     <ul class="datepicker scroll-x-wrapper">
