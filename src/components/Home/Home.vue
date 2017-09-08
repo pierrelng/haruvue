@@ -15,8 +15,11 @@
       </li>
       <li class="scroll-x-item" v-bind:class="{ active: isActive === 'today' }" v-on:click="updateDay('today')">Auj.</li>
       <li class="scroll-x-item" v-bind:class="{ active: isActive === 'tomorrow' }" v-on:click="updateDay('tomorrow')">Dem.</li>
-      <li class="scroll-x-item" v-bind:class="{ active: isActive === index }" v-for="(day, index) in days"  v-on:click="updateDay(index)">{{ [day, 'DD'] | moment('dddd') }}</li>
-      <li class="scroll-x-item">Semaine suivante</li>
+      <li class="scroll-x-item" v-bind:class="{ active: isActive === index }" v-for="(day, index) in days"  v-on:click="updateDay(index)">
+        <span v-if="!day.fullWord">{{ day.name }} {{ day.number }}/{{ day.month }}</span>
+        <span v-else>{{ day.name }}</span>
+      </li>
+      <li class="scroll-x-item" v-on:click="addNextWeek">Semaine suivante</li>
     </ul>
 
     <event-list v-bind:selected-day="selectedDay"></event-list>
@@ -38,6 +41,7 @@ export default {
       days: [],
       selectedDay: '',
       isActive: 'all',
+      endFirstWeek: '',
     };
   },
   created() {
@@ -50,18 +54,33 @@ export default {
       const daysUntilSunday = sunday.diff(moment(), 'days');
       if (daysUntilSunday > 1) {
         for (let i = 2; i <= daysUntilSunday; i += 1) {
-          this.days.push(moment().add(i, 'days').format('DD'));
+          const datetime = moment().add(i, 'days');
+          this.days.push(
+            {
+              datetime,
+              number: datetime.format('DD'),
+              name: this.uppercaseFirst(datetime.format('dddd')),
+              fullWord: true,
+            },
+          );
         }
       } else {
         const endOfNextWeek = moment().endOf('week').add(7, 'days');
         const daysUntilEndOfNextWeek = endOfNextWeek.diff(moment(), 'days');
         for (let i = 2; i <= daysUntilEndOfNextWeek; i += 1) {
-          this.days.push(moment().add(i, 'days').format('DD'));
+          const datetime = moment().add(i, 'days');
+          this.days.push(
+            {
+              datetime,
+              number: datetime.format('DD'),
+              name: this.uppercaseFirst(datetime.format('dddd')),
+              fullWord: true,
+            },
+          );
         }
       }
     },
     updateDay(target) {
-      this.setDays();
       switch (target) {
         case 'all':
           this.selectedDay = '';
@@ -76,9 +95,27 @@ export default {
           this.isActive = target;
           break;
         default:
-          this.selectedDay = this.days[target];
+          this.selectedDay = this.days[target].number;
           this.isActive = target;
       }
+    },
+    addNextWeek() {
+      let lastDayPreviousWeek = this.days[this.days.length - 1].datetime.clone(); // https://momentjs.com/guides/#/lib-concepts/mutability/
+      for (let i = 1; i <= 7; i += 1) {
+        const datetime = lastDayPreviousWeek.clone().add(1, 'days');
+        this.days.push(
+          {
+            datetime,
+            number: datetime.format('DD'),
+            name: this.uppercaseFirst(datetime.format('dddd')).substring(0, 3),
+            month: datetime.format('MM'),
+          },
+        );
+        lastDayPreviousWeek = datetime;
+      }
+    },
+    uppercaseFirst(str) {
+      return str.charAt(0).toUpperCase() + str.slice(1);
     },
   },
 };
