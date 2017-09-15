@@ -34,6 +34,10 @@ module.exports = {
       'optionalDependencies': ['test/unit/index.js']
     }],
     // allow debugger during development
-    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0
+    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
+    'max-len': [1, 120, 2, { // https://blog.javascripting.com/2015/09/07/fine-tuning-airbnbs-eslint-config/
+      ignoreComments: true,
+      ignoreRegExpLiterals: true // https://eslint.org/docs/rules/max-len#options
+    }],
   }
 }
