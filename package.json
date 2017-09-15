@@ -14,9 +14,11 @@
     "axios": "^0.16.2",
     "mint-ui": "^2.2.9",
     "moment": "^2.18.1",
+    "uniqid": "^4.1.1",
     "vue": "^2.3.3",
     "vue-moment": "^2.0.2",
-    "vue-router": "^2.6.0"
+    "vue-router": "^2.6.0",
+    "youtube-player": "^5.4.0"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

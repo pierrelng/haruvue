@@ -1,4 +1,7 @@
+@import '~@/assets/css/abstracts/variables'
+
 img
+  display: block
   height: (100vw / (16/9))
   object-fit: cover
   overflow: hidden
@@ -18,3 +21,24 @@ img
 .spinner
   display: flex
   justify-content: center
+
+a
+  display: block
+  text-decoration: none
+  
+.cover
+  position: relative
+
+.play
+  align-items: center
+  justify-content: center
+  background-color: white
+  border: solid 1px $tundora
+  border-radius: 90px
+  bottom: 5vw
+  color: $tundora
+  display: flex
+  height: 70px
+  position: absolute
+  right: 5vw
+  width: 70px
