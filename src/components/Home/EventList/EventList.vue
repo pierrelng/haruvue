@@ -12,7 +12,7 @@
           -
           {{ [event.details.end_time[0], 'YYYY-MM-DD HH:mm:ss'] | moment('HH:mm') }}
         </span>
-        <span>{{ event.acf.venue[0].post_title }}</span>
+        <span v-if="event.acf.venue[0].post_title">{{ event.acf.venue[0].post_title }}</span>
         <div class="cover">
           <a v-bind:href="event.acf.facebook_event_url">
             <img v-bind:src="event.details.cover_source">
