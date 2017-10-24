@@ -2,21 +2,52 @@
 
 img
   display: block
-  height: (100vw / (16/9))
+  height: (94vw / (16/9))
   object-fit: cover
   overflow: hidden
   width: 100%
 
 .list
   list-style: none
-  margin: 0
+  margin: 25px 0 0
   padding: 0
 
   li
-    margin-bottom: 15px
+    background-color: $cod-gray
+    border-radius: 15px
+    box-shadow: 0 3px 5px 1px black
+    margin: 0 3vw 30px
+    overflow: hidden
 
-    span
-      display: block
+    .infos
+      padding: 10px
+
+      span
+        display: block
+
+      i
+        font-size: 15px
+        vertical-align: -2px
+
+      .title
+        font-size: 17px
+        font-weight: 600
+        margin-bottom: 8px
+        overflow: hidden
+        text-overflow: ellipsis
+        white-space: nowrap
+
+      .date, .venue
+        font-size: 15px
+
+        span
+          display: inline-block
+
+        .date-start
+          font-weight: 600
+
+      .venue
+        margin-top: 3px
 
 .spinner
   display: flex
@@ -25,7 +56,7 @@ img
 a
   display: block
   text-decoration: none
-  
+
 .cover
   position: relative
 

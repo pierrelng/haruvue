@@ -15,6 +15,10 @@ Vue.use(require('vue-moment'), {
   moment,
 });
 
+Vue.moment.updateLocale('fr', { // https://momentjs.com/docs/#/customization/weekday-names/
+  weekdays: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'],
+});
+
 Vue.config.productionTip = false;
 
 /* eslint-disable no-new */

@@ -6,13 +6,6 @@
         infinite-scroll-distance="100"
         infinite-scroll-immediate-check="false">
       <li v-for="event in events">
-        <span v-html="event.title.rendered"></span>
-        <span>
-          {{ [event.details.start_time[0], 'YYYY-MM-DD HH:mm:ss'] | moment('dddd DD MMM [de] HH:mm') }}
-          -
-          {{ [event.details.end_time[0], 'YYYY-MM-DD HH:mm:ss'] | moment('HH:mm') }}
-        </span>
-        <span v-if="event.acf.venue[0].post_title">{{ event.acf.venue[0].post_title }}</span>
         <div class="cover">
           <a v-bind:href="event.acf.facebook_event_url">
             <img v-bind:src="event.details.cover_source">
@@ -27,6 +20,16 @@
             </youtube-iframe>
             <span>play</span>
           </div>
+        </div>
+        <div class="infos">
+          <span class="title" v-html="event.title.rendered"></span>
+          <span class="date">
+            <i class="material-icons">schedule</i>
+            <span class="date-start">{{ [event.details.start_time[0], 'YYYY-MM-DD HH:mm:ss'] | moment('dddd DD MMM') }}</span>
+            {{ [event.details.start_time[0], 'YYYY-MM-DD HH:mm:ss'] | moment(' [de] HH:mm') }}
+            - {{ [event.details.end_time[0], 'YYYY-MM-DD HH:mm:ss'] | moment('HH:mm') }}
+          </span>
+          <span class="venue" v-if="event.acf.venue[0].post_title"><i class="material-icons">place</i> {{ event.acf.venue[0].post_title }}</span>
         </div>
       </li>
     </ul>
