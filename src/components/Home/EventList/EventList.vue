@@ -18,7 +18,7 @@
               v-on:paused="showPlay"
               v-on:buffering="showBuffer">
             </youtube-iframe>
-            <span>play</span>
+            <span class="player-symbol">play</span>
           </div>
         </div>
         <div class="infos">
