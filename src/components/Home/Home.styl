@@ -28,7 +28,7 @@
 // Date picker
 .datepicker
   align-items: center
-  background-color: $tundora
+  // background-color: $tundora
   // box-sizing: border-box
   // font-size: .9em
   font-size: 15px
@@ -38,9 +38,21 @@
   padding: 0
 
   li
-    color: $white
+    color: $silver-chalice
     line-height: $datepicker-height
     padding: 0 15px
+    position: relative
+
+    .line
+      background-color: $mine-shaft
+      bottom: 0
+      height: 3px
+      left: 0
+      position: absolute
+      width: 100%
+
+    .lineActive
+      background-color: $white
 
   .datepicker__all
     // font-size: 1.1em
@@ -50,4 +62,4 @@
     height: $datepicker-height
 
   .active
-    background-color: $boulder
+    color: $white

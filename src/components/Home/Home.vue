@@ -12,14 +12,16 @@
         <svg viewBox="0 0 200 200" style="width: 25px; height: 25px">
           <path fill="none" stroke="#FFFFFF" stroke-width="7" d="M100,100 C200,0 200,200 100,100 C0,0 0,200 100,100z" />
         </svg>
+        <div class="line" v-bind:class="{ lineActive: isActive === 'all' }"></div>
       </li>
-      <li class="scroll-x-item" v-bind:class="{ active: isActive === 'today' }" v-on:click="updateDay('today')">Auj.</li>
-      <li class="scroll-x-item" v-bind:class="{ active: isActive === 'tomorrow' }" v-on:click="updateDay('tomorrow')">Dem.</li>
+      <li class="scroll-x-item" v-bind:class="{ active: isActive === 'today' }" v-on:click="updateDay('today')">Auj.<div class="line" v-bind:class="{ lineActive: isActive === 'today' }"></div></li>
+      <li class="scroll-x-item" v-bind:class="{ active: isActive === 'tomorrow' }" v-on:click="updateDay('tomorrow')">Dem.<div class="line" v-bind:class="{ lineActive: isActive === 'tomorrow' }"></div></li>
       <li class="scroll-x-item" v-bind:class="{ active: isActive === index }" v-for="(day, index) in days"  v-on:click="updateDay(index)">
         <span v-if="!day.fullWord">{{ day.name }}. {{ day.number }}/{{ day.month }}</span>
         <span v-else>{{ day.name }}</span>
+        <div class="line" v-bind:class="{ lineActive: isActive === index }"></div>
       </li>
-      <li class="scroll-x-item" v-on:click="addNextWeek">Semaine suivante</li>
+      <li class="scroll-x-item" v-on:click="addNextWeek">Semaine suivante<div class="line"></div></li>
     </ul>
 
     <event-list v-bind:selected-day="selectedDay"></event-list>
