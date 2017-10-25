@@ -16,7 +16,7 @@ Vue.use(require('vue-moment'), {
 });
 
 Vue.moment.updateLocale('fr', { // https://momentjs.com/docs/#/customization/weekday-names/
-  weekdays: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'],
+  weekdays: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
 });
 
 Vue.config.productionTip = false;
