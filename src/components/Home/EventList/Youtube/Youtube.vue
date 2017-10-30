@@ -1,96 +1,100 @@
 <template lang="html">
   <div class="player-youtube">
-    <div class="player-youtube-video" :id="playerId"></div>
+    <div class="container">
+      <youtube
+      :video-id="videoId"
+      ref="youtube"
+      :player-vars="playerVars"
+      :height="'1'"
+      :width="'1'"
+      @playing="playing"
+      @paused="paused"
+      @buffering="buffering"
+      @cued="cued"
+      @unstarted="unstarted"
+      @ready="ready">
+    </youtube>
+    </div>
+    <i v-show="showIcon" class="material-icons" @click="playVideo">{{ buttonIcon }}</i>
+    <mt-spinner v-show="showSpinner" type="fading-circle" :size="20" color="#4F4F4F"></mt-spinner>
   </div>
 </template>
 
 <script>
-import uniqid from 'uniqid';
-import player from 'youtube-player'; // https://github.com/gajus/youtube-player
-
-const state = {
-  UNSTARTED: -1,
-  ENDED: 0,
-  PLAYING: 1,
-  PAUSED: 2,
-  BUFFERING: 3,
-  CUED: 5,
-};
+import getYouTubeID from 'get-youtube-id';
 
 export default {
-  name: 'youtube',
-  props: {
-    videoId: {
-      type: String,
-      required: true,
-    },
-  },
+  name: 'youtube-iframe',
+  props: ['url'],
   data() {
     return {
-      playerId: uniqid('player-'),
-      player: {},
-      events: {
-        [state.UNSTARTED]: 'unstarted',
-        [state.PLAYING]: 'playing',
-        [state.PAUSED]: 'paused',
-        [state.ENDED]: 'ended',
-        [state.BUFFERING]: 'buffering',
-        [state.CUED]: 'cued',
+      playerVars: {
+        controls: 0,
+        // origin: ''
+        playsinline: 1,
+        rel: 0,
+        showinfo: 0,
+        modestbranding: 1,
+        iv_load_policy: 3,
       },
+      state: '',
+      buttonIcon: 'power_settings_new',
+      showSpinner: true,
+      videoId: '',
+      suggestedQuality: 'small',
     };
   },
-  beforeDestroy() {
-    if (this.player !== null && this.player.destroy) {
-      this.player.destroy();
-      delete this.player;
-    }
-  },
-  mounted() {
-    this.player = player(this.playerId, {
-      videoId: this.videoId,
-      width: '0',
-      height: '0',
-      playerVars: {
-        playsinline: '1',
-        showinfo: '0',
-        rel: '0',
-        autoplay: '0',
-      },
-      suggestedQuality: 'small',
-    });
-    this.player.on('ready', this.playerReady);
-    this.player.on('stateChange', this.playerStateChange);
-    this.player.on('error', this.playerError);
-  },
-  watch: {
-    videoId: 'updatePlayer',
+  created() {
+    this.getVideoId();
   },
   methods: {
-    playerReady(e) {
-      this.$emit('ready', e.target);
+    getVideoId() {
+      this.videoId = getYouTubeID(this.url);
     },
-    playerStateChange(e) {
-      if (e.data !== null && e.data !== state.UNSTARTED) {
-        this.$emit(this.events[e.data], e.target);
+    playVideo() {
+      console.log('button pressed');
+      if (this.state === '' || this.state === 'paused') {
+        this.player.playVideo();
+        this.$emit('implaying', this.videoId);
+      } else {
+        this.player.pauseVideo();
+        this.$emit('implaying', 'nobody');
       }
     },
-    playerError(e) {
-      this.$emit('error', e.target);
+    playing() {
+      this.state = 'playing';
+      this.showSpinner = false;
+      this.buttonIcon = 'pause';
     },
-    updatePlayer(videoId) {
-      if (!videoId) {
-        this.player.stopVideo();
-        return;
-      }
-      if (this.playerVars.autoplay === 1) {
-        this.player.loadVideoById({ videoId });
-        return;
-      }
-      this.player.cueVideoById({ videoId });
+    paused() {
+      this.state = 'paused';
+      this.showSpinner = false;
+      this.buttonIcon = 'play_arrow';
+    },
+    buffering() {
+      this.showSpinner = true;
+    },
+    ready() {
+      this.showSpinner = false;
+      this.buttonIcon = 'play_arrow';
+    },
+    cued() {
+      this.showSpinner = false;
+      this.buttonIcon = 'play_arrow';
+    },
+    unstarted() {
+      this.buttonIcon = 'power_settings_new';
+    },
+  },
+  computed: {
+    player() {
+      return this.$refs.youtube.player;
+    },
+    showIcon() {
+      return !this.showSpinner;
     },
   },
 };
 </script>
 
-<style lang="css">
-</style>
+<style scoped lang="stylus" src="./Youtube.styl"></style>

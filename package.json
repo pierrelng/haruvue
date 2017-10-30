@@ -12,12 +12,14 @@
   },
   "dependencies": {
     "axios": "^0.16.2",
+    "get-youtube-id": "^1.0.0",
     "mint-ui": "^2.2.9",
     "moment": "^2.19.1",
     "uniqid": "^4.1.1",
     "vue": "^2.5.2",
     "vue-moment": "^2.1.0",
     "vue-router": "^2.8.1",
+    "vue-youtube": "^1.2.1",
     "youtube-player": "^5.4.0"
   },
   "devDependencies": {

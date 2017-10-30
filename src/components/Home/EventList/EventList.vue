@@ -10,16 +10,13 @@
           <a v-bind:href="event.acf.facebook_event_url">
             <img v-bind:src="event.details.cover_source">
           </a>
-          <div class="play" v-if="event.acf.youtube_music_url" @click="playPause(videoId(event.acf.youtube_music_url))">
-            <youtube-iframe
-              v-bind:video-id="videoId(event.acf.youtube_music_url)"
-              ref="youtube"
-              v-on:playing="showPause"
-              v-on:paused="showPlay"
-              v-on:buffering="showBuffer">
-            </youtube-iframe>
-            <span class="player-symbol">play</span>
-          </div>
+          <youtube-iframe class="play"
+            v-if="event.acf.youtube_music_url"
+            :url="event.acf.youtube_music_url"
+            v-on:implaying="updateWhosPlaying"
+            ref="youtubeIframe">
+          </youtube-iframe>
+          <!-- <span class="player-symbol">play</span> -->
         </div>
         <div class="infos">
           <span class="title" v-html="event.title.rendered"></span>
@@ -58,6 +55,7 @@ export default {
       infiniteScrollDisabled: false,
       showSpinner: false,
       playing: {},
+      idCurrentlyPlaying: '',
     };
   },
   created() {
@@ -103,81 +101,62 @@ export default {
         });
       }, 5);
     },
-    playPause(targetVideoId) {
-      if (this.playing.state === 'playing') {
-        if (this.playing.videoId === targetVideoId) {
-          this.player.pauseVideo();
-        } else {
-          this.player.pauseVideo();
-          this.$refs.youtube.forEach((el, i) => {
-            if (el.videoId === targetVideoId) {
-              this.player = this.$refs.youtube[i].player;
-              this.player.playVideo();
-            }
-          });
-        }
-      } else {
-        this.$refs.youtube.forEach((el, i) => {
-          if (el.videoId === targetVideoId) {
-            this.player = this.$refs.youtube[i].player;
-            this.player.playVideo();
+    // convertTimeToseconds(timeString) {
+    //   const timeProps = [];
+    //   if (timeString.indexOf('h') > 0) {
+    //     timeProps.push('h');
+    //   }
+    //   if (timeString.indexOf('m') > 0) {
+    //     timeProps.push('m');
+    //   }
+    //   if (timeString.indexOf('s') > 0) {
+    //     timeProps.push('s');
+    //   }
+    //   let seconds = 0;
+    //   let startIndex = 0;
+    //   timeProps.forEach((el) => {
+    //     switch (el) {
+    //       case 'h': {
+    //         const hours = parseInt(timeString.substring(startIndex, timeString.indexOf(el)), 10);
+    //         seconds += hours * 3600;
+    //         startIndex = timeString.indexOf(el) + 1;
+    //         break;
+    //       }
+    //       case 'm': {
+    //         const minutes = parseInt(timeString.substring(startIndex, timeString.indexOf(el)), 10);
+    //         seconds += minutes * 60;
+    //         startIndex = timeString.indexOf(el) + 1;
+    //         break;
+    //       }
+    //       case 's':
+    //         seconds += parseInt(timeString.substring(startIndex, timeString.indexOf(el)), 10);
+    //         startIndex = timeString.indexOf(el) + 1;
+    //         break;
+    //       default:
+    //         seconds = false;
+    //     }
+    //   });
+    //   return seconds;
+    // },
+    updateWhosPlaying(videoId) {
+      if (this.idCurrentlyPlaying === '') {
+        this.$refs.youtubeIframe.forEach((el, i) => {
+          if (el.videoId === videoId) {
+            this.idCurrentlyPlaying = i;
+            console.log(this.idCurrentlyPlaying);
           }
         });
-      }
-    },
-    convertTimeToseconds(timeString) {
-      const timeProps = [];
-      if (timeString.indexOf('h') > 0) {
-        timeProps.push('h');
-      }
-      if (timeString.indexOf('m') > 0) {
-        timeProps.push('m');
-      }
-      if (timeString.indexOf('s') > 0) {
-        timeProps.push('s');
-      }
-      let seconds = 0;
-      let startIndex = 0;
-      timeProps.forEach((el) => {
-        switch (el) {
-          case 'h': {
-            const hours = parseInt(timeString.substring(startIndex, timeString.indexOf(el)), 10);
-            seconds += hours * 3600;
-            startIndex = timeString.indexOf(el) + 1;
-            break;
+      } else if (videoId !== 'nobody') {
+        this.$refs.youtubeIframe[this.idCurrentlyPlaying].player.stopVideo();
+        this.$refs.youtubeIframe.forEach((el, i) => {
+          if (el.videoId === videoId) {
+            this.idCurrentlyPlaying = i;
           }
-          case 'm': {
-            const minutes = parseInt(timeString.substring(startIndex, timeString.indexOf(el)), 10);
-            seconds += minutes * 60;
-            startIndex = timeString.indexOf(el) + 1;
-            break;
-          }
-          case 's':
-            seconds += parseInt(timeString.substring(startIndex, timeString.indexOf(el)), 10);
-            startIndex = timeString.indexOf(el) + 1;
-            break;
-          default:
-            seconds = false;
-        }
-      });
-      return seconds;
-    },
-    videoId(url) {
-      const currentVideoIdArr = url.match(/^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/);
-      const currentVideoId = currentVideoIdArr[1];
-      return currentVideoId;
-    },
-    showPause(e) {
-      e.a.parentElement.nextElementSibling.innerText = 'pause';
-      this.playing.state = 'playing';
-      this.playing.videoId = e.b.c.videoId;
-    },
-    showPlay(e) {
-      e.a.parentElement.nextElementSibling.innerText = 'play';
-      this.playing.state = 'paused';
-    },
-    showBuffer(e) {
-      e.a.parentElement.nextElementSibling.innerText = 'buffering';
+        });
+      } else {
+        // nobody's playing
+        this.idCurrentlyPlaying = '';
+      }
     },
   },
   watch: {

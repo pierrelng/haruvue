@@ -3,6 +3,7 @@
 import Vue from 'vue';
 import { InfiniteScroll, Spinner } from 'mint-ui'; // http://mint-ui.github.io/docs/#/en2/infinite-scroll
 import 'mint-ui/lib/style.css'; // http://mint-ui.github.io/docs/#/en2/quickstart
+import VueYoutube from 'vue-youtube';
 import App from './App';
 import router from './router';
 
@@ -18,6 +19,8 @@ Vue.use(require('vue-moment'), {
 Vue.moment.updateLocale('fr', { // https://momentjs.com/docs/#/customization/weekday-names/
   weekdays: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
 });
+
+Vue.use(VueYoutube); // https://github.com/anteriovieira/vue-youtube
 
 Vue.config.productionTip = false;
 
