@@ -19,8 +19,7 @@
     "vue": "^2.5.2",
     "vue-moment": "^2.1.0",
     "vue-router": "^2.8.1",
-    "vue-youtube": "^1.2.1",
-    "youtube-player": "^5.4.0"
+    "vue-youtube": "^1.2.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.6",
