@@ -52,7 +52,6 @@ export default {
       this.videoId = getYouTubeID(this.url);
     },
     playVideo() {
-      console.log('button pressed');
       if (this.state === '' || this.state === 'paused') {
         this.player.playVideo();
         this.$emit('implaying', this.videoId);

@@ -143,7 +143,6 @@ export default {
         this.$refs.youtubeIframe.forEach((el, i) => {
           if (el.videoId === videoId) {
             this.idCurrentlyPlaying = i;
-            console.log(this.idCurrentlyPlaying);
           }
         });
       } else if (videoId !== 'nobody') {
