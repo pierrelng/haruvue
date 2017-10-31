@@ -16,7 +16,6 @@
             v-on:implaying="updateWhosPlaying"
             ref="youtubeIframe">
           </youtube-iframe>
-          <!-- <span class="player-symbol">play</span> -->
         </div>
         <div class="infos">
           <span class="title" v-html="event.title.rendered"></span>
@@ -27,6 +26,7 @@
             - {{ [event.details.end_time[0], 'YYYY-MM-DD HH:mm:ss'] | moment('HH:mm') }}
           </span>
           <span class="venue" v-if="event.acf.venue[0].post_title"><i class="material-icons">place</i> {{ event.acf.venue[0].post_title }}</span>
+          <tags :event="event"></tags>
         </div>
       </li>
     </ul>
@@ -40,11 +40,13 @@
 <script>
 import axios from 'axios';
 import YoutubeIframe from '@/components/Home/EventList/Youtube/Youtube';
+import Tags from '@/components/Home/EventList/Tags/Tags';
 
 export default {
   name: 'eventList',
   components: {
     'youtube-iframe': YoutubeIframe,
+    tags: Tags,
   },
   props: ['selectedDay'],
   data() {
