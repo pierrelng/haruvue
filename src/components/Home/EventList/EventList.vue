@@ -27,6 +27,7 @@
           </span>
           <span class="venue" v-if="event.acf.venue[0].post_title"><i class="material-icons">place</i> {{ event.acf.venue[0].post_title }}</span>
           <tags :event="event"></tags>
+          <a :href="'/#/event/' + event.id">Voir plus</a>
         </div>
       </li>
     </ul>
