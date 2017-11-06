@@ -1,11 +1,11 @@
 <template>
   <div>
     <!-- Img with player -->
-    <img :src="event.details.cover_source">
+    <img v-if="event" :src="event.details.cover_source">
     <div class="play"></div>
 
     <!-- Date + Title -->
-    <div class="col headline">
+    <div v-if="event" class="col headline">
       <div class="date-start">
         {{ [event.details.start_time[0], 'YYYY-MM-DD HH:mm:ss'] | moment('dddd DD MMM') }}
         {{ [event.details.start_time[0], 'YYYY-MM-DD HH:mm:ss'] | moment(' [de] HH:mm') }}
@@ -15,19 +15,21 @@
     </div>
 
     <!-- Calls to action -->
-    <div class="callsToAction">
-      <!-- Share -->
-      <div class="share disabled">
-        <i class="material-icons">share</i>
-        <span>Partager</span>
-      </div>
-      <!-- Star -->
-      <div class="star disabled">
-        <i class="material-icons">star_border</i>
-        <span>Interessé(e)</span>
+    <div v-if="event" class="callsToAction">
+      <div class="row1">
+        <!-- Share -->
+        <div class="share disabled">
+          <i class="material-icons">share</i>
+          <span>Partager</span>
+        </div>
+        <!-- Star -->
+        <div class="star disabled">
+          <i class="material-icons">star_border</i>
+          <span>Interessé(e)</span>
+        </div>
       </div>
       <!-- Location -->
-      <div v-if="venue.acf.address" class="address">
+      <div v-if="venue && venue.acf.address" class="location">
         <i class="material-icons">place</i>
         <span>{{ venue.acf.address }}</span>
         <a :href="'http://maps.google.com/?q=' + venue.acf.address">
@@ -35,26 +37,97 @@
         </a>
       </div>
       <!-- Tickets -->
-      <a v-if="event.acf.billetterie_url" class="tickets" :href="event.acf.billetterie_url">
-        <i class="material-icons">credit_card</i>
-        <span>Billetterie</span>
-      </a>
-      <div v-else class="tickets disabled">
-        <i class="material-icons">credit_card</i>
-        <span>Billetterie</span>
-      </div>
-      <!-- Guestlist -->
-      <a v-if="event.acf.guestlist_url" class="guestlist" :href="event.acf.guestlist_url">
-        <i class="material-icons">assignment</i>
-        <span>Guestlist</span>
-      </a>
-      <div v-else class="guestlist disabled">
-        <i class="material-icons">assignment</i>
-        <span>Guestlist</span>
+      <div class="row3">
+        <a v-if="event.acf.billetterie_url" class="tickets" :href="event.acf.billetterie_url">
+          <i class="material-icons">credit_card</i>
+          <span>Billetterie</span>
+        </a>
+        <div v-else class="tickets disabled">
+          <i class="material-icons">credit_card</i>
+          <span>Billetterie</span>
+        </div>
+        <!-- Guestlist -->
+        <a v-if="event.acf.guestlist_url" class="guestlist" :href="event.acf.guestlist_url">
+          <i class="material-icons">assignment</i>
+          <span>Guestlist</span>
+        </a>
+        <div v-else class="guestlist disabled">
+          <i class="material-icons">assignment</i>
+          <span>Guestlist</span>
+        </div>
       </div>
     </div>
 
-    <!-- NAME -->
+    <!-- Venue -->
+    <div v-if="venue && event.acf.venue[0].ID" class="col wrapper venue">
+      <span class="rubric">Lieu de l'event</span>
+      <div class="tile blue">
+        <img :src="venue.acf.logo.url">
+        <div class="container">
+          <span class="name">{{ venue.title.rendered }}</span>
+          <ul class="type">
+            <li v-for="type in venue.acf.type"><span class="bullet"></span>{{ type }}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Organizer -->
+    <div v-if="organizer && event.acf.organizer[0].ID" class="col wrapper organizer">
+      <span class="rubric">Organisateur de l'event</span>
+      <div class="tile red">
+        <img :src="organizer.acf.logo.url">
+        <div class="container">
+          <span class="name">{{ organizer.title.rendered }}</span>
+          <ul class="type">
+            <li v-for="type in organizer.acf.type"><span class="bullet"></span>{{ type }}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Description -->
+    <div v-if="event" class="col wrapper description">
+      <span class="rubric">Description</span>
+      <div class="separator"></div>
+      <div class="content" :class="{ truncated: isTruncated }" @click="toggleDescription">
+        <div v-html="event.acf.description"></div>
+        <div :class="{ shadow: isTruncated }"></div>
+      </div>
+    </div>
+
+    <!-- Tags -->
+    <div v-if="event" class="col wrapper tags">
+      <span class="rubric">Genre</span>
+      <ul class="scroll-x-wrapper">
+        <li class="scroll-x-item" v-for="tag in event.acf.tag_what_genre">{{ tag }}</li>
+        <div class="shadow"></div>
+      </ul>
+      <span class="rubric">Type</span>
+      <ul class="scroll-x-wrapper">
+        <li class="scroll-x-item" v-for="tag in event.acf.tag_what_prod">{{ tag }}</li>
+        <div class="shadow"></div>
+      </ul>
+      <span class="rubric">Divers</span>
+      <ul class="scroll-x-wrapper">
+        <li class="scroll-x-item" v-for="tag in event.acf.tag_what_atmos_scale">{{ tag }}</li>
+        <li class="scroll-x-item" v-for="tag in event.acf.tag_what_activities">{{ tag }}</li>
+        <li class="scroll-x-item" v-for="tag in event.acf.tag_what_atmos_misc">{{ tag }}</li>
+        <div class="shadow"></div>
+      </ul>
+      <span class="rubric">Prix</span>
+      <ul class="scroll-x-wrapper">
+        <li class="scroll-x-item" v-for="tag in event.acf.tag_how_price">{{ tag }}</li>
+        <div class="shadow"></div>
+      </ul>
+    </div>
+
+    <!-- Links -->
+    <div v-if="event" class="col wrapper links">
+      <span class="rubric">Liens</span>
+      <a :href="event.acf.facebook_event_url"></a>
+    </div>
+
   </div>
 </template>
 
@@ -67,6 +140,8 @@ export default {
     return {
       event: '',
       venue: '',
+      organizer: '',
+      isTruncated: true,
     };
   },
   created() {
@@ -77,15 +152,28 @@ export default {
       axios.get(`https://pierrelange.com/wp-json/haru/v1/events/${this.$route.params.id}`)
       .then((response) => {
         this.event = response.data;
-        this.getVenue();
+        if (this.event.acf.venue[0].ID) {
+          this.getVenue();
+        }
+        if (this.event.acf.organizer[0].ID) {
+          this.getOrganizer();
+        }
       });
     },
     getVenue() {
       axios.get(`https://pierrelange.com/wp-json/haru/v1/venues/${this.event.acf.venue[0].ID}`)
       .then((response) => {
         this.venue = response.data;
-        // console.log(this.venue);
       });
+    },
+    getOrganizer() {
+      axios.get(`https://pierrelange.com/wp-json/haru/v1/organizers/${this.event.acf.organizer[0].ID}`)
+      .then((response) => {
+        this.organizer = response.data;
+      });
+    },
+    toggleDescription() {
+      this.isTruncated = !this.isTruncated;
     },
   },
 };

@@ -7,9 +7,9 @@
         infinite-scroll-immediate-check="false">
       <li v-for="event in events">
         <div class="cover">
-          <a v-bind:href="event.acf.facebook_event_url">
+          <!-- <a v-bind:href="event.acf.facebook_event_url"> -->
             <img v-bind:src="event.details.cover_source">
-          </a>
+          <!-- </a> -->
           <youtube-iframe class="play"
             v-if="event.acf.youtube_music_url"
             :url="event.acf.youtube_music_url"
