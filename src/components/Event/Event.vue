@@ -61,29 +61,29 @@
     <!-- Venue -->
     <div v-if="venue && event.acf.venue[0].ID" class="col wrapper venue">
       <span class="rubric">Lieu de l'event</span>
-      <div class="tile blue">
+      <a class="tile blue" :href="'/#/lieu/' + event.acf.venue[0].ID">
         <img :src="venue.acf.logo.url">
         <div class="container">
-          <span class="name">{{ venue.title.rendered }}</span>
+          <span class="name" v-html="venue.title.rendered"></span>
           <ul class="type">
             <li v-for="type in venue.acf.type"><span class="bullet"></span>{{ type }}</li>
           </ul>
         </div>
-      </div>
+      </a>
     </div>
 
     <!-- Organizer -->
     <div v-if="organizer && event.acf.organizer[0].ID" class="col wrapper organizer">
       <span class="rubric">Organisateur de l'event</span>
-      <div class="tile red">
+      <a class="tile red" :href="'/#/organisateur/' + event.acf.organizer[0].ID">
         <img :src="organizer.acf.logo.url">
         <div class="container">
-          <span class="name">{{ organizer.title.rendered }}</span>
+          <span class="name" v-html="organizer.title.rendered"></span>
           <ul class="type">
             <li v-for="type in organizer.acf.type"><span class="bullet"></span>{{ type }}</li>
           </ul>
         </div>
-      </div>
+      </a>
     </div>
 
     <!-- Description -->

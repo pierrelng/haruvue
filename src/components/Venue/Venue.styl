@@ -1,0 +1,130 @@
+@import '~@/assets/css/abstracts/variables'
+
+.col
+  padding: 0 20px
+
+.wrapper
+  align-items: center
+  color: $white
+  display: flex
+  padding-top: 8px
+  img
+    border: solid 1px $white
+    border-radius: 50%
+    display: inline-block
+    height: 50px
+    margin-right: 10px
+    width: 50px
+  .container
+    display: flex
+    flex-direction: column
+    .name
+      font-size: 14px
+      font-weight: 700
+    .type
+      list-style: square
+      margin: 0
+      padding: 0
+      li
+        display: inline-block
+        font-size: 12px
+        margin-right: 5px
+        .bullet
+          background-color: $white
+          border-radius: 50%
+          display: inline-block
+          height: 4px
+          margin-right: 5px
+          vertical-align: middle
+          width: 4px
+
+nav
+  display: flex
+  margin-top: 20px
+  .active
+    font-weight: 700
+  .infos
+  .events
+  .photos
+    display: flex
+    justify-content: space-around
+    flex-grow: 1
+    padding-bottom: 15px
+    position: relative
+    span
+      font-size: 15px
+    .line
+      background-color: $mine-shaft
+      bottom: 0
+      height: 3px
+      left: 0
+      position: absolute
+      width: 100%
+    .lineActive
+      background-color: $dodger-blue
+
+.card
+    margin-top: 20px
+  .rubric
+    display: block
+    font-size: 12px
+    font-weight: 700
+    // margin-bottom: 10px
+    text-transform: uppercase
+  .content
+    font-size: 13px
+    position: relative
+  .truncated
+    height: 170px
+    overflow: hidden
+    .shadow
+      background: linear-gradient(to bottom, rgba(16, 16, 16, 0), rgba(16, 16, 16, 1))
+      bottom: 0
+      height: 100px
+      position: absolute
+      width: 100%
+
+.location
+  font-size: 13px
+  .rubric
+    margin-bottom: 10px
+  .location_infos
+    display: flex
+    align-items: center
+    .map
+      background-image: url('~@/assets/images/map.png')
+      background-position: center
+      background-repeat: no-repeat
+      background-size: cover
+      // box-shadow: 0 1px 6px rgba(255, 255, 255, .16), 0 2px 6px rgba(255, 255, 255, .23)
+      height: 30px
+      margin-right: 10px
+      width: 65px
+
+.links
+  .rubric
+    margin-bottom: 10px
+  a
+    background-color: $mine-shaft
+    background-position: center
+    background-repeat: no-repeat
+    background-size: 20px
+    border-radius: 8px
+    display: inline-block
+    height: 50px
+    width: 60px
+  .facebook
+    background-image: url('~@/assets/images/icons/facebook_white.png')
+  .instagram
+    background-image: url('~@/assets/images/icons/instagram_white.png')
+  .soundcloud
+    background-image: url('~@/assets/images/icons/soundcloud_white.png')
+  .twitter
+    background-image: url('~@/assets/images/icons/twitter_white.png')
+
+.toCome
+  display: flex
+  font-weight: 600
+  justify-content: center
+  margin-top: 35px
+  opacity: .3
