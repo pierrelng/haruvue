@@ -36,7 +36,7 @@
       <!-- Description -->
       <div v-if="venue" class="col card">
         <span class="rubric">Description</span>
-        <div class="content" :class="{ truncated: isTruncated }" @click="toggleDescription">
+        <div ref="descriptionContent" class="content" :class="{ truncated: isTruncated }" @click="toggleDescription">
           <div v-html="venue.acf.description"></div>
           <div :class="{ shadow: isTruncated }"></div>
         </div>
@@ -86,11 +86,15 @@ export default {
     return {
       venue: '',
       isActive: 'infos',
-      isTruncated: 'true',
+      isTruncated: false,
+      canBeTruncated: false,
     };
   },
   created() {
     this.getVenue();
+  },
+  updated() {
+    this.decideTruncate();
   },
   methods: {
     getVenue() {
@@ -103,7 +107,15 @@ export default {
       this.isActive = tab;
     },
     toggleDescription() {
-      this.isTruncated = !this.isTruncated;
+      if (this.canBeTruncated === true) {
+        this.isTruncated = !this.isTruncated;
+      }
+    },
+    decideTruncate() {
+      if (this.$refs.descriptionContent.clientHeight > 180 && this.canBeTruncated === false) {
+        this.canBeTruncated = true;
+        this.isTruncated = true;
+      }
     },
   },
 };

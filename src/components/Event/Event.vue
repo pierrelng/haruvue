@@ -90,7 +90,7 @@
     <div v-if="event" class="col wrapper description">
       <span class="rubric">Description</span>
       <div class="separator"></div>
-      <div class="content" :class="{ truncated: isTruncated }" @click="toggleDescription">
+      <div ref="descriptionContent" class="content" :class="{ truncated: isTruncated }" @click="toggleDescription">
         <div v-html="event.acf.description"></div>
         <div :class="{ shadow: isTruncated }"></div>
       </div>
@@ -141,11 +141,15 @@ export default {
       event: '',
       venue: '',
       organizer: '',
-      isTruncated: true,
+      isTruncated: false,
+      canBeTruncated: false,
     };
   },
   created() {
     this.getEvent();
+  },
+  updated() {
+    this.decideTruncate();
   },
   methods: {
     getEvent() {
@@ -173,7 +177,15 @@ export default {
       });
     },
     toggleDescription() {
-      this.isTruncated = !this.isTruncated;
+      if (this.canBeTruncated === true) {
+        this.isTruncated = !this.isTruncated;
+      }
+    },
+    decideTruncate() {
+      if (this.$refs.descriptionContent.clientHeight > 180 && this.canBeTruncated === false) {
+        this.canBeTruncated = true;
+        this.isTruncated = true;
+      }
     },
   },
 };
