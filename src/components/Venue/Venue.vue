@@ -66,12 +66,12 @@
 
     <!-- Events -->
     <div v-if="isActive === 'events'" class="toCome">
-      <span>A venir ;)</span>
+      <span>Coming soon</span>
     </div>
 
     <!-- Photos -->
     <div v-if="isActive === 'photos'" class="toCome">
-      <span>A venir ;)</span>
+      <span>Coming soon</span>
     </div>
 
   </div>

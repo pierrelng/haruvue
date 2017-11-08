@@ -99,26 +99,22 @@
     <!-- Tags -->
     <div v-if="event" class="col wrapper tags">
       <span class="rubric">Genre</span>
-      <ul class="scroll-x-wrapper">
-        <li class="scroll-x-item" v-for="tag in event.acf.tag_what_genre">{{ tag }}</li>
-        <div class="shadow"></div>
+      <ul>
+        <li v-for="tag in event.acf.tag_what_genre">{{ tag }}</li>
       </ul>
-      <span class="rubric">Type</span>
-      <ul class="scroll-x-wrapper">
-        <li class="scroll-x-item" v-for="tag in event.acf.tag_what_prod">{{ tag }}</li>
-        <div class="shadow"></div>
+      <span v-if="event.acf.tag_what_prod" class="rubric">Type</span>
+      <ul>
+        <li v-for="tag in event.acf.tag_what_prod">{{ tag }}</li>
       </ul>
       <span class="rubric">Divers</span>
-      <ul class="scroll-x-wrapper">
-        <li class="scroll-x-item" v-for="tag in event.acf.tag_what_atmos_scale">{{ tag }}</li>
-        <li class="scroll-x-item" v-for="tag in event.acf.tag_what_activities">{{ tag }}</li>
-        <li class="scroll-x-item" v-for="tag in event.acf.tag_what_atmos_misc">{{ tag }}</li>
-        <div class="shadow"></div>
+      <ul>
+        <li v-for="tag in event.acf.tag_what_atmos_scale">{{ tag }}</li>
+        <li v-for="tag in event.acf.tag_what_activities">{{ tag }}</li>
+        <li v-for="tag in event.acf.tag_what_atmos_misc">{{ tag }}</li>
       </ul>
-      <span class="rubric">Prix</span>
-      <ul class="scroll-x-wrapper">
-        <li class="scroll-x-item" v-for="tag in event.acf.tag_how_price">{{ tag }}</li>
-        <div class="shadow"></div>
+      <span v-if="event.acf.tag_how_price" class="rubric">Prix</span>
+      <ul>
+        <li v-for="tag in event.acf.tag_how_price">{{ tag }}</li>
       </ul>
     </div>
 
