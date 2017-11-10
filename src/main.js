@@ -4,6 +4,7 @@ import Vue from 'vue';
 import { InfiniteScroll, Spinner } from 'mint-ui'; // http://mint-ui.github.io/docs/#/en2/infinite-scroll
 import 'mint-ui/lib/style.css'; // http://mint-ui.github.io/docs/#/en2/quickstart
 import VueYoutube from 'vue-youtube';
+import VueAnalytics from 'vue-analytics';
 import App from './App';
 import router from './router';
 
@@ -21,6 +22,11 @@ Vue.moment.updateLocale('fr', { // https://momentjs.com/docs/#/customization/wee
 });
 
 Vue.use(VueYoutube); // https://github.com/anteriovieira/vue-youtube
+
+Vue.use(VueAnalytics, { // https://github.com/MatteoGabriele/vue-analytics
+  id: 'UA-109134697-2',
+  router,
+});
 
 Vue.config.productionTip = false;
 
