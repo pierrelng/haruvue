@@ -62,7 +62,7 @@
     <div v-if="venue && event.acf.venue[0].ID" class="col wrapper venue">
       <span class="rubric">Lieu de l'event</span>
       <a class="tile blue" :href="'/#/lieu/' + event.acf.venue[0].ID">
-        <img :src="venue.acf.logo.url">
+        <img class="venueLogo" :src="venue.acf.logo.url" height="40" width="40">
         <div class="container">
           <span class="name" v-html="venue.title.rendered"></span>
           <ul class="type">
@@ -76,7 +76,7 @@
     <div v-if="organizer && event.acf.organizer[0].ID" class="col wrapper organizer">
       <span class="rubric">Organisateur de l'event</span>
       <a class="tile red" :href="'/#/organisateur/' + event.acf.organizer[0].ID">
-        <img :src="organizer.acf.logo.url">
+        <img class="organizerLogo" :src="organizer.acf.logo.url" height="40" width="40">
         <div class="container">
           <span class="name" v-html="organizer.title.rendered"></span>
           <ul class="type">

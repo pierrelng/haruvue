@@ -10,3 +10,20 @@ a, a:visited
 
 p
   line-height: 19px
+
+@media screen and (min-width: 961px)
+  html
+    background-color: $black
+    display: flex
+    justify-content: center
+    height: 100%
+
+    body
+      border-radius: 15px
+      width: 300px
+
+      img
+        height: ((.94*400px) / (16/9)) !important
+
+      .logo
+        height: .80*400px !important
