@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <div class="logo"></div>
-    <p class="col lineHeight"><span class="bold">Hello copain, copine !</span></p>
+    <p class="col lineHeight"><span class="bold">Hello copain, hello copine !</span></p>
     <p class="intro col lineHeight">Bienvenue sur la beta. Nous sommes actuellement en version <span class="bold blue">0.1.0</span>, et voici ce qu'on peut faire pour le moment :</p>
     <ul class="col lineHeight">
       <li>Découvrir les évènements à venir dans le flux infini ou en choisissant une date prochaine</li>
