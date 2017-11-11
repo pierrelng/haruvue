@@ -1,23 +1,15 @@
 <template>
-  <div class="hello">
-    <img src="~@/assets/images/logo.png">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://gitter.im/vuejs/vue" target="_blank">Gitter Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-      <br>
-      <li><a href="http://vuejs-templates.github.io/webpack/" target="_blank">Docs for This Template</a></li>
+  <div class="wrapper">
+    <div class="logo"></div>
+    <p class="col lineHeight"><span class="bold">Hello copain, copine !</span></p>
+    <p class="intro col lineHeight">Bienvenue sur la beta. Nous sommes actuellement en version <span class="bold blue">0.1.0</span>, et voici ce qu'on peut faire pour le moment :</p>
+    <ul class="col lineHeight">
+      <li>Découvrir les évènements à venir dans le flux infini ou en choisissant une date prochaine</li>
+      <li>Écouter un aperçu sonore des events</li>
+      <li>Retrouver toutes les informations utiles d’un event  : map, billetterie, description, tags, réseaux sociaux...</li>
+      <li>Découvrir des informations sur le lieu d’un event</li>
     </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
+    <a href="/#/home">Let's go !</a>
   </div>
 </template>
 
@@ -26,7 +18,7 @@ export default {
   name: 'hello',
   data() {
     return {
-      msg: 'Welcome to Your Vue.js App',
+      msg: '',
     };
   },
 };

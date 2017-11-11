@@ -1,21 +1,48 @@
 @import '~@/assets/css/abstracts/variables'
 
-.hello
-  color: $navy-vue
-  font-family: 'Avenir', Helvetica, Arial, sans-serif
-  margin-top: 60px
-  text-align: center
+.col
+  margin: 0 20px
 
-h1, h2
-  font-weight: normal
+.bold
+  font-weight: 700
 
-ul
-  list-style-type: none
-  padding: 0
+.blue
+  color: $beta-blue
 
-li
-  display: inline-block
-  margin: 0 10px
+.lineHeight
+  line-height: 23px
+
+.wrapper
+  color: $white
+  display: flex
+  flex-direction: column
+  justify-content: center
+  margin-bottom: 40px
+
+  .logo
+    background-image: url('~@/assets/images/beta_logo300.png')
+    background-position: center -70px
+    background-repeat: no-repeat
+    background-size: cover
+    height: 80vw
+    width: 100%
+
+  ul
+    margin-top: 10px
+
+    li
+      padding-top: 10px
 
 a
-  color: $green-vue
+  color: $white
+  background-color: $beta-blue
+  border: 0
+  border-radius: 25px
+  display: flex
+  font-family: 'Open Sans', sans-serif
+  font-size: .9em
+  font-weight: 700
+  justify-content: center
+  margin: 30px 20px 0
+  padding: 10px 0
+  text-transform: uppercase
