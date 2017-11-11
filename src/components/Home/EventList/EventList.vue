@@ -29,7 +29,7 @@
           <tags :event="event"></tags>
           <div v-if="event.acf.why_go" class="coupdecoeur">
             <span class="heartIcon"></span>
-            <span class="reasonWhy"><span>Coup de coeur :</span> {{ event.acf.why_go }}</span>
+            <span class="reasonWhy"><span>On kiffe :</span> {{ event.acf.why_go }}</span>
           </div>
           <a :href="'/#/event/' + event.id">Voir plus</a>
         </div>

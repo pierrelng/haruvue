@@ -99,7 +99,7 @@
     <!-- Tags -->
     <div v-if="event" class="col wrapper tags">
       <div v-if="event.acf.why_go" class="coupdecoeur">
-        <span class="rubric">Coup de coeur</span>
+        <span class="rubric">On kiffe :</span>
         <span class="reasonWhy">{{ event.acf.why_go }}</span>
       </div>
       <span class="rubric">Genre</span>
