@@ -98,7 +98,7 @@ export default {
   },
   methods: {
     getVenue() {
-      axios.get(`https://pierrelange.com/wp-json/haru/v1/venues/${this.$route.params.id}`)
+      axios.get(`https://hosting.haruapp.fr/wp-json/haru/v1/venues/${this.$route.params.id}`)
       .then((response) => {
         this.venue = response.data;
       });

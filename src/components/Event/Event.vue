@@ -149,7 +149,7 @@ export default {
   },
   methods: {
     getEvent() {
-      axios.get(`https://pierrelange.com/wp-json/haru/v1/events/${this.$route.params.id}`)
+      axios.get(`https://hosting.haruapp.fr/wp-json/haru/v1/events/${this.$route.params.id}`)
       .then((response) => {
         this.event = response.data;
         if (this.event.acf.venue[0].ID) {
@@ -161,13 +161,13 @@ export default {
       });
     },
     getVenue() {
-      axios.get(`https://pierrelange.com/wp-json/haru/v1/venues/${this.event.acf.venue[0].ID}`)
+      axios.get(`https://hosting.haruapp.fr/wp-json/haru/v1/venues/${this.event.acf.venue[0].ID}`)
       .then((response) => {
         this.venue = response.data;
       });
     },
     getOrganizer() {
-      axios.get(`https://pierrelange.com/wp-json/haru/v1/organizers/${this.event.acf.organizer[0].ID}`)
+      axios.get(`https://hosting.haruapp.fr/wp-json/haru/v1/organizers/${this.event.acf.organizer[0].ID}`)
       .then((response) => {
         this.organizer = response.data;
       });
