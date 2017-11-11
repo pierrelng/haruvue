@@ -4,6 +4,7 @@ import Hello from '@/components/Hello/Hello';
 import Home from '@/components/Home/Home';
 import Event from '@/components/Event/Event';
 import Venue from '@/components/Venue/Venue';
+import Organizer from '@/components/Organizer/Organizer';
 
 Vue.use(Router);
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/lieu/:id',
       name: 'Venue',
       component: Venue,
+    },
+    {
+      path: '/organisateur/:id',
+      name: 'Organizer',
+      component: Organizer,
     },
   ],
 });
