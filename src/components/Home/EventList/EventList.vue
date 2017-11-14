@@ -17,7 +17,7 @@
             ref="youtubeIframe">
           </youtube-iframe>
         </div>
-        <a class="infos">
+        <a class="infos" :href="'/#/event/' + event.id">
           <span class="title" v-html="event.title.rendered"></span>
           <span class="date">
             <i class="material-icons">schedule</i>
