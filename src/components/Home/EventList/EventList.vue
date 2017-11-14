@@ -7,9 +7,9 @@
         infinite-scroll-immediate-check="false">
       <li v-for="event in events">
         <div class="cover">
-          <!-- <a v-bind:href="event.acf.facebook_event_url"> -->
+          <a :href="'/#/event/' + event.id">
             <img v-bind:src="event.details.cover_source">
-          <!-- </a> -->
+          </a>
           <youtube-iframe class="play"
             v-if="event.acf.youtube_music_url"
             :url="event.acf.youtube_music_url"
@@ -17,7 +17,7 @@
             ref="youtubeIframe">
           </youtube-iframe>
         </div>
-        <div class="infos">
+        <a class="infos">
           <span class="title" v-html="event.title.rendered"></span>
           <span class="date">
             <i class="material-icons">schedule</i>
@@ -26,12 +26,13 @@
             - {{ [event.details.end_time[0], 'YYYY-MM-DD HH:mm:ss'] | moment('HH:mm') }}
           </span>
           <span class="venue" v-if="event.acf.venue[0].post_title"><i class="material-icons">place</i> {{ event.acf.venue[0].post_title }}</span>
+        </a>
+        <div class="tagsAndReason">
           <tags :event="event"></tags>
           <div v-if="event.acf.why_go" class="coupdecoeur">
             <span class="heartIcon"></span>
             <span class="reasonWhy"><span>On kiffe :</span> {{ event.acf.why_go }}</span>
           </div>
-          <a :href="'/#/event/' + event.id">Voir plus</a>
         </div>
       </li>
     </ul>
