@@ -30,6 +30,9 @@ Vue.use(VueAnalytics, { // https://github.com/MatteoGabriele/vue-analytics
 
 Vue.config.productionTip = false;
 
+const bus = new Vue(); // https://www.youtube.com/watch?v=jzh4zQcfB0o
+export default bus; // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/prefer-default-export.md
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

@@ -45,6 +45,7 @@
 
 <script>
 import axios from 'axios';
+import bus from '@/main';
 import YoutubeIframe from '@/components/Home/EventList/Youtube/Youtube';
 import Tags from '@/components/Home/EventList/Tags/Tags';
 
@@ -54,7 +55,6 @@ export default {
     'youtube-iframe': YoutubeIframe,
     tags: Tags,
   },
-  props: ['selectedDay'],
   data() {
     return {
       events: [],
@@ -64,9 +64,13 @@ export default {
       showSpinner: false,
       playing: {},
       idCurrentlyPlaying: '',
+      selectedDay: '',
     };
   },
   created() {
+    bus.$on('datePicked', (data) => {
+      this.selectedDay = data;
+    });
     this.getEvents();
   },
   methods: {

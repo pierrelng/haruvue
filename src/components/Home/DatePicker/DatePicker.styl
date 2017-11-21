@@ -1,0 +1,36 @@
+@import '~@/assets/css/abstracts/variables'
+
+.nav
+  position: relative
+  padding-top: 12px
+  .list
+    &::after
+      content: ''
+      position: absolute
+      bottom: 0
+      left: 0
+      z-index: -1
+      width: 100%
+      height: 3px
+      background-color: $mine-shaft
+  .list__item
+    position: relative
+    display: flex
+    align-items: center
+    padding: 0 10px 10px
+    color: $silver-chalice
+    border-bottom: solid 3px $mine-shaft
+    user-select: none
+    .list__label
+      display: inline-block // prevents overflowing up
+    .infinity
+      width: 25px
+      height: 20px
+      background-image: url('~@/assets/images/icons/infinity_white.svg')
+      background-position: center
+      opacity: .65
+    .infinity--active
+      opacity: 1
+  .list__item--active
+    color: $white
+    border-bottom: solid 3px $white

@@ -2,7 +2,8 @@
   -webkit-overflow-scrolling: touch
   display: flex
   flex-wrap: nowrap
-  overflow-x: auto
+  overflow-x: scroll
+  overflow-y: hidden // temporary fix to vertical scrolling due to some elements overflowing up (i.e. 'li' in DatePicker.vue)
 
   .scroll-x-item
     flex: 0 0 auto
