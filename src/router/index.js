@@ -5,6 +5,8 @@ import Home from '@/components/Home/Home';
 import Event from '@/components/Event/Event';
 import Venue from '@/components/Venue/Venue';
 import Organizer from '@/components/Organizer/Organizer';
+// import Standby from '@/components/Standby/Standby';
+// import Love from '@/components/Love/Love';
 
 Vue.use(Router);
 
@@ -15,11 +17,21 @@ export default new Router({
       name: 'Hello',
       component: Hello,
     },
+    // {
+    //   path: '/',
+    //   name: 'Standby',
+    //   component: Standby,
+    // },
     {
       path: '/home',
       name: 'Home',
       component: Home,
     },
+    // {
+    //   path: '/home',
+    //   name: 'Standby',
+    //   component: Standby,
+    // },
     {
       path: '/event/:id',
       name: 'Event',
@@ -35,5 +47,10 @@ export default new Router({
       name: 'Organizer',
       component: Organizer,
     },
+    // {
+    //   path: '/saythatyoulovemeee',
+    //   name: 'Love',
+    //   component: Love,
+    // },
   ],
 });
