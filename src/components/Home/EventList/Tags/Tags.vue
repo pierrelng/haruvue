@@ -1,7 +1,7 @@
 <template>
   <div class="tags">
-    <ul class="scroll-x-wrapper">
-      <li class="scroll-x-item" v-for="tag in this.tags">{{ tag }}</li>
+    <ul class="list scroll-x-wrapper">
+      <li class="list__item scroll-x-item" v-for="tag in this.tags">{{ tag }}</li>
       <div class="shadow"></div>
     </ul>
     <!-- <div v-for="tag in this.event.acf.tag_what_genre" v-if="tag">{{ tag }}</div>
@@ -32,28 +32,25 @@ export default {
   },
   methods: {
     prepareTags() {
-      iterateObject(this.event.acf, (value, key) => {
-        if (
-          key === 'tag_how_entry' ||
-          key === 'tag_how_price' ||
-          key === 'tag_what_genre' ||
-          key === 'tag_what_public' ||
-          key === 'tag_what_prod' ||
-          key === 'tag_what_activities' ||
-          key === 'tag_what_atmos_scale' ||
-          key === 'tag_what_atmos_misc' ||
-          key === 'tag_what_drink'
-        ) {
-          if (value) {
-            if (Array.isArray(value)) {
-              for (let i = 0; i < value.length; i += 1) {
-                if (value[i]) {
-                  this.tags.push(value[i]);
-                }
+      this.iterator(this.event.acf, 'tag_what_genre');
+      this.iterator(this.event.acf, 'tag_how_price');
+      this.iterator(this.event.acf, 'tag_what_prod');
+      this.iterator(this.event.acf, 'tag_what_atmos_scale');
+      this.iterator(this.event.acf, 'tag_what_public');
+      this.iterator(this.event.acf, 'tag_what_activities');
+      this.iterator(this.event.acf, 'tag_what_atmos_misc');
+    },
+    iterator(object, tagLabel) {
+      iterateObject(object, (value, key) => {
+        if (key === tagLabel && value) {
+          if (Array.isArray(value)) {
+            for (let i = 0; i < value.length; i += 1) {
+              if (value[i]) {
+                this.tags.push(value[i]);
               }
-            } else {
-              this.tags.push(value);
             }
+          } else {
+            this.tags.push(value);
           }
         }
       });
