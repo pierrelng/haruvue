@@ -65,11 +65,15 @@ export default {
       playing: {},
       idCurrentlyPlaying: '',
       selectedDay: '',
+      searched_tag: '',
     };
   },
   created() {
     bus.$on('datePicked', (data) => {
       this.selectedDay = data;
+    });
+    bus.$on('search', (data) => {
+      this.searched_tag = data;
     });
     this.getEvents();
   },
@@ -79,7 +83,8 @@ export default {
       this.showSpinner = true;
       this.noEventsFound = false;
       setTimeout(() => {
-        axios.get(`https://hosting.haruapp.fr/wp-json/haru/v1/events?offset=0&selected_day=${this.selectedDay}`)
+        // eslint-disable-next-line
+        axios.get(`https://hosting.haruapp.fr/wp-json/haru/v1/events?offset=0&selected_day=${this.selectedDay}&searched_tag=${this.searched_tag}`)
         .then((response) => {
           this.noEventsFound = false;
           this.events = response.data;
@@ -97,7 +102,7 @@ export default {
       setTimeout(() => {
         this.offset = this.events.length;
         // eslint-disable-next-line
-        axios.get(`https://hosting.haruapp.fr/wp-json/haru/v1/events?offset=${this.offset}&selected_day=${this.selectedDay}`)
+        axios.get(`https://hosting.haruapp.fr/wp-json/haru/v1/events?offset=${this.offset}&selected_day=${this.selectedDay}&searched_tag=${this.searched_tag}`)
         .then((response) => {
           this.noEventsFound = false;
           response.data.forEach((event) => {
@@ -172,6 +177,10 @@ export default {
   },
   watch: {
     selectedDay() {
+      this.infiniteScrollDisabled = false;
+      this.getEvents();
+    },
+    searched_tag() {
       this.infiniteScrollDisabled = false;
       this.getEvents();
     },
