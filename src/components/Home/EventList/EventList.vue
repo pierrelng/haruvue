@@ -69,6 +69,9 @@ export default {
     };
   },
   created() {
+    if (this.$route.query.tag) {
+      this.searched_tag = this.$route.query.tag;
+    }
     bus.$on('datePicked', (data) => {
       this.selectedDay = data;
     });

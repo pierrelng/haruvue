@@ -7,6 +7,7 @@ import Venue from '@/components/Venue/Venue';
 import Organizer from '@/components/Organizer/Organizer';
 // import Standby from '@/components/Standby/Standby';
 // import Love from '@/components/Love/Love';
+import Categories from '@/components/Categories/Categories';
 
 Vue.use(Router);
 
@@ -52,5 +53,10 @@ export default new Router({
     //   name: 'Love',
     //   component: Love,
     // },
+    {
+      path: '/categories',
+      name: 'Categories',
+      component: Categories,
+    },
   ],
 });

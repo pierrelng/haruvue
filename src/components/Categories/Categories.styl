@@ -1,0 +1,28 @@
+@import '~@/assets/css/abstracts/variables'
+
+.categories
+  padding: 10px
+  .categories__item
+    display: flex
+    align-items: center
+    justify-content: center
+    width: 100%
+    height: 130px
+    font: 700 $extralarge-font 'Open Sans', sans-serif
+    color: $white
+    background-color: grey
+
+.container
+  display: grid
+  grid-template-columns: repeat(2, 1fr)
+  grid-column-gap: 10px
+  grid-row-gap: 10px
+  .full-row
+    grid-column-start: 1
+    grid-column-end: 3
+  // .left-half-row /* not needed at the moment */
+  //   grid-column-start: 1
+  //   grid-column-end: 2
+  // .right-half-row /* not needed at the moment */
+  //   grid-column-start: 2
+  //   grid-column-end: 3
