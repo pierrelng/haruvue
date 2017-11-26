@@ -1,8 +1,10 @@
 <template>
   <div>
     <!-- Img with player -->
-    <img v-if="event" :src="event.details.cover_source">
-    <div class="play"></div>
+    <div class="head">
+      <img v-if="event" :src="event.details.cover_source">
+      <youtube-iframe class="play" v-if="event.acf.youtube_music_url" :url="event.acf.youtube_music_url"></youtube-iframe>
+    </div>
 
     <!-- Date + Title -->
     <div v-if="event" class="col headline">
@@ -133,9 +135,13 @@
 
 <script>
 import axios from 'axios';
+import YoutubeIframe from '@/components/Home/EventList/Youtube/Youtube';
 
 export default {
   name: 'event',
+  components: {
+    'youtube-iframe': YoutubeIframe,
+  },
   data() {
     return {
       event: '',

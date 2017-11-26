@@ -1,11 +1,26 @@
 @import '~@/assets/css/abstracts/variables'
 
-img
-  display: block
-  height: (94vw / (16/9))
-  object-fit: cover
-  overflow: hidden
-  width: 100%
+.head
+  position: relative
+  img
+    display: block
+    height: (94vw / (16/9))
+    object-fit: cover
+    overflow: hidden
+    width: 100%
+  .play
+    position: absolute
+    right: 16px
+    bottom: 16px
+    display: flex
+    align-items: center
+    justify-content: center
+    width: 60px
+    height: 60px
+    color: $tundora
+    background-color: white
+    border-radius: 90px
+    box-shadow: 0 0 5px 1px $black
 
 .col
   padding: 0 20px
