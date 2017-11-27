@@ -3,7 +3,7 @@
 
     <form class="form" @submit.prevent>
       <input class="form__input" v-model="query" placeholder="(1 seul tag par recherche for now...)">
-      <input class="form__submit" type="submit" @click="search(query)" value="">
+      <!-- <input class="form__submit" type="submit" @click="search(query)" value=""> -->
       <router-link class="categoriesButton" :to="{ name: 'Categories' }"></router-link>
     </form>
 
