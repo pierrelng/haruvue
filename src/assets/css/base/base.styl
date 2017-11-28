@@ -1,10 +1,9 @@
 @import '~@/assets/css/abstracts/variables'
 
 body
-  background-color: $almost-black
   color: $white
-  font-family: 'Open Sans', sans-serif
-  font-size: $regular-font
+  font: $regular-font 'Open Sans', sans-serif
+  background-color: $almost-black
   // overflow: scroll
 
 p
@@ -12,19 +11,23 @@ p
 
 @media screen and (min-width: 961px)
   html
-    background-color: $black
-    display: flex
-    justify-content: center
     height: 100%
+    background-color: $black
 
     body
-      border-radius: 15px
       width: 300px
+      margin: auto
+      border-radius: 15px
 
       #app
-        background-color: $almost-black
         padding-bottom: 2px
+        background-color: $almost-black
         border-radius: 15px
+
+        .bottom-nav
+          width: 300px
+          left: 50%
+          transform: translateX(-50%)
 
       img
         height: ((.94*400px) / (16/9)) !important
