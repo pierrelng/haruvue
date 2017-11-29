@@ -10,12 +10,13 @@
           <a :href="'/#/event/' + event.id">
             <img v-bind:src="event.details.cover_source">
           </a>
-          <youtube-iframe class="play"
+          <div v-if="event.acf.youtube_music_url" class="bottomPlay" @click="bottomPlay(event.acf.youtube_music_url)">Play</div>
+          <!-- <youtube-iframe class="play"
             v-if="event.acf.youtube_music_url"
             :url="event.acf.youtube_music_url"
             v-on:implaying="updateWhosPlaying"
             ref="youtubeIframe">
-          </youtube-iframe>
+          </youtube-iframe> -->
         </div>
         <a class="infos" :href="'/#/event/' + event.id">
           <span class="title" v-html="event.title.rendered"></span>
@@ -176,6 +177,9 @@ export default {
         // nobody's playing
         this.idCurrentlyPlaying = '';
       }
+    },
+    bottomPlay(youtubeUrl) {
+      bus.$emit('bottomPlay', youtubeUrl);
     },
   },
   watch: {

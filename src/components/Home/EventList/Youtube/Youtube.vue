@@ -2,18 +2,18 @@
   <div class="player-youtube">
     <div class="container">
       <youtube
-      :video-id="videoId"
-      ref="youtube"
-      :player-vars="playerVars"
-      :height="'1'"
-      :width="'1'"
-      @playing="playing"
-      @paused="paused"
-      @buffering="buffering"
-      @cued="cued"
-      @unstarted="unstarted"
-      @ready="ready">
-    </youtube>
+        :video-id="videoId"
+        ref="youtube"
+        :player-vars="playerVars"
+        :height="'1'"
+        :width="'1'"
+        @playing="playing"
+        @paused="paused"
+        @buffering="buffering"
+        @cued="cued"
+        @unstarted="unstarted"
+        @ready="ready">
+      </youtube>
     </div>
     <i v-show="showIcon" class="material-icons" @click="playVideo">{{ buttonIcon }}</i>
     <mt-spinner v-show="showSpinner" type="fading-circle" :size="20" color="#4F4F4F"></mt-spinner>
