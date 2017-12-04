@@ -5,10 +5,13 @@
       ref="youtube"
       :height="'0'"
       :width="'0'"
-      @cued="cued"
+      :player-vars="playerVars"
+      @cued="playPause"
       @buffering="buffering"
-      @playing="playing">
+      @playing="playing"
+      @paused="paused">
     </youtube>
+    <i class="material-icons" v-show="!showSpinner" @click="playPause">{{ buttonIcon }}</i>
     <mt-spinner v-show="showSpinner" type="fading-circle" :size="20" color="#4F4F4F"></mt-spinner>
   </div>
 </template>
@@ -21,32 +24,66 @@ export default {
   name: 'bottomNav',
   data() {
     return {
+      playerVars: {
+        autoplay: 0,
+        controls: 0,
+        origin: '',
+        playsinline: 1,
+        rel: 0,
+        showinfo: 0,
+        modestbranding: 1,
+        iv_load_policy: 3,
+      },
       videoInfo: {
         id: '',
       },
       showSpinner: false,
+      isPlaying: false,
+      buttonIcon: 'power_settings_new',
+      indexPlaying: 'none',
     };
   },
   created() {
-    bus.$on('bottomPlay', (youtubeUrl) => {
-      this.videoInfo = urlParser.parse(youtubeUrl);
+    bus.$on('bottomPlay', (data) => {
+      this.videoInfo = urlParser.parse(data.youtubeUrl);
+      this.indexPlaying = data.index;
+      this.playPause();
     });
   },
   methods: {
-    cued() {
-      this.player.playVideo();
-      this.showSpinner = false;
+    playPause() {
+      if (this.isPlaying) {
+        this.player.pauseVideo();
+        this.buttonIcon = 'play_arrow';
+      } else {
+        this.player.playVideo();
+        this.showSpinner = false;
+      }
     },
     buffering() {
       this.showSpinner = true;
     },
     playing() {
+      this.isPlaying = true;
+      this.buttonIcon = 'pause';
       this.showSpinner = false;
+    },
+    paused() {
+      this.isPlaying = false;
+      this.buttonIcon = 'play_arrow';
     },
   },
   computed: {
     player() {
       return this.$refs.youtube.player;
+    },
+  },
+  watch: {
+    buttonIcon() {
+      bus.$emit('updatePlayPauseButton', { buttonIcon: this.buttonIcon, indexPlaying: this.indexPlaying });
+    },
+    showSpinner() {
+      bus.$emit('showSpinner', this.showSpinner);
     },
   },
 };

@@ -5,18 +5,16 @@
         infinite-scroll-disabled="infiniteScrollDisabled"
         infinite-scroll-distance="100"
         infinite-scroll-immediate-check="false">
-      <li v-for="event in events">
+      <!-- <li v-for="event in events" v-if="isConcert(event.acf.tag_what_prod)"> -->
+      <li v-for="(event, index) in events">
         <div class="cover">
           <a :href="'/#/event/' + event.id">
             <img v-bind:src="event.details.cover_source">
           </a>
-          <div v-if="event.acf.youtube_music_url" class="bottomPlay" @click="bottomPlay(event.acf.youtube_music_url)">Play</div>
-          <!-- <youtube-iframe class="play"
-            v-if="event.acf.youtube_music_url"
-            :url="event.acf.youtube_music_url"
-            v-on:implaying="updateWhosPlaying"
-            ref="youtubeIframe">
-          </youtube-iframe> -->
+          <div class="play" v-if="event.acf.youtube_music_url" @click="bottomPlay(event.acf.youtube_music_url, index)">
+            <i :id="index" class="material-icons" v-show="!showMusicSpinner" ref="feedCardPlayButton">{{ buttonIcon }}</i>
+            <mt-spinner v-show="showMusicSpinner" type="fading-circle" :size="20" color="#4F4F4F"></mt-spinner>
+          </div>
         </div>
         <a class="infos" :href="'/#/event/' + event.id">
           <span class="title" v-html="event.title.rendered"></span>
@@ -62,24 +60,35 @@ export default {
       noEventsFound: false,
       offset: 0,
       infiniteScrollDisabled: false,
-      showSpinner: false,
-      playing: {},
-      idCurrentlyPlaying: '',
       selectedDay: '',
       searched_tag: '',
+      showSpinner: false,
+      showMusicSpinner: false,
+      buttonIcon: 'power_settings_new',
+      indexPlaying: 'none',
     };
   },
   created() {
     if (this.$route.query.tag) {
       this.searched_tag = this.$route.query.tag;
     }
+    this.getEvents();
     bus.$on('datePicked', (data) => {
       this.selectedDay = data;
     });
     bus.$on('search', (data) => {
       this.searched_tag = data;
     });
-    this.getEvents();
+    bus.$on('updatePlayPauseButton', (data) => {
+      this.$refs.feedCardPlayButton.forEach((el, i) => {
+        if (el.id === data.indexPlaying.toString()) {
+          this.$refs.feedCardPlayButton[i].innerHTML = data.buttonIcon;
+        }
+      });
+    });
+    bus.$on('showSpinner', (data) => {
+      this.showMusicSpinner = data;
+    });
   },
   methods: {
     getEvents() {
@@ -122,65 +131,29 @@ export default {
         });
       }, 5);
     },
-    // convertTimeToseconds(timeString) {
-    //   const timeProps = [];
-    //   if (timeString.indexOf('h') > 0) {
-    //     timeProps.push('h');
-    //   }
-    //   if (timeString.indexOf('m') > 0) {
-    //     timeProps.push('m');
-    //   }
-    //   if (timeString.indexOf('s') > 0) {
-    //     timeProps.push('s');
-    //   }
-    //   let seconds = 0;
-    //   let startIndex = 0;
-    //   timeProps.forEach((el) => {
-    //     switch (el) {
-    //       case 'h': {
-    //         const hours = parseInt(timeString.substring(startIndex, timeString.indexOf(el)), 10);
-    //         seconds += hours * 3600;
-    //         startIndex = timeString.indexOf(el) + 1;
-    //         break;
-    //       }
-    //       case 'm': {
-    //         const minutes = parseInt(timeString.substring(startIndex, timeString.indexOf(el)), 10);
-    //         seconds += minutes * 60;
-    //         startIndex = timeString.indexOf(el) + 1;
-    //         break;
-    //       }
-    //       case 's':
-    //         seconds += parseInt(timeString.substring(startIndex, timeString.indexOf(el)), 10);
-    //         startIndex = timeString.indexOf(el) + 1;
-    //         break;
-    //       default:
-    //         seconds = false;
+    bottomPlay(youtubeUrl, index) {
+      if (this.indexPlaying !== 'none') {
+        this.$refs.feedCardPlayButton.forEach((el, i) => {
+          if (el.id === this.indexPlaying.toString()) {
+            this.$refs.feedCardPlayButton[i].innerHTML = 'play_arrow';
+          }
+        });
+      }
+      this.indexPlaying = index;
+      bus.$emit('bottomPlay', { youtubeUrl, index });
+    },
+    // isConcert(tagArray) {
+    //   let concert = false;
+    //   tagArray.forEach((tag) => {
+    //     if (tag === 'concert') {
+    //       concert = true;
     //     }
     //   });
-    //   return seconds;
+    //   if (concert) {
+    //     return false;
+    //   }
+    //   return true;
     // },
-    updateWhosPlaying(videoId) {
-      if (this.idCurrentlyPlaying === '') {
-        this.$refs.youtubeIframe.forEach((el, i) => {
-          if (el.videoId === videoId) {
-            this.idCurrentlyPlaying = i;
-          }
-        });
-      } else if (videoId !== 'nobody') {
-        this.$refs.youtubeIframe[this.idCurrentlyPlaying].player.stopVideo();
-        this.$refs.youtubeIframe.forEach((el, i) => {
-          if (el.videoId === videoId) {
-            this.idCurrentlyPlaying = i;
-          }
-        });
-      } else {
-        // nobody's playing
-        this.idCurrentlyPlaying = '';
-      }
-    },
-    bottomPlay(youtubeUrl) {
-      bus.$emit('bottomPlay', youtubeUrl);
-    },
   },
   watch: {
     selectedDay() {
