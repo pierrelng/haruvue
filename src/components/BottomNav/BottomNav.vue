@@ -11,8 +11,10 @@
       @playing="playing"
       @paused="paused">
     </youtube>
-    <i class="material-icons" v-show="!showSpinner" @click="playPause">{{ buttonIcon }}</i>
-    <mt-spinner v-show="showSpinner" type="fading-circle" :size="20" color="#4F4F4F"></mt-spinner>
+    <div class="playPause">
+      <i class="material-icons icon" v-show="!showSpinner" @click="playPause">{{ buttonIcon }}</i>
+      <mt-spinner class="spinner" v-show="showSpinner" type="fading-circle" :size="24" color="#EEEEEE"></mt-spinner>
+    </div>
   </div>
 </template>
 
