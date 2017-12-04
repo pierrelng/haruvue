@@ -64,7 +64,7 @@ export default {
       searched_tag: '',
       showSpinner: false,
       showMusicSpinner: false,
-      buttonIcon: 'power_settings_new',
+      buttonIcon: 'queue_music',
       indexPlaying: 'none',
     };
   },
@@ -135,7 +135,7 @@ export default {
       if (this.indexPlaying !== 'none') {
         this.$refs.feedCardPlayButton.forEach((el, i) => {
           if (el.id === this.indexPlaying.toString()) {
-            this.$refs.feedCardPlayButton[i].innerHTML = 'power_settings_new';
+            this.$refs.feedCardPlayButton[i].innerHTML = 'queue_music';
           }
         });
       }

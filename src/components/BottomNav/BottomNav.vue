@@ -41,7 +41,7 @@ export default {
       },
       showSpinner: false,
       isPlaying: false,
-      buttonIcon: 'power_settings_new',
+      buttonIcon: '',
       indexPlaying: 'none',
     };
   },
