@@ -20,7 +20,7 @@
 
 <script>
 import bus from '@/main';
-import urlParser from 'js-video-url-parser';
+import urlParser from 'js-video-url-parser'; // https://github.com/Zod-/jsVideoUrlParser
 
 export default {
   name: 'bottomNav',
@@ -38,6 +38,9 @@ export default {
       },
       videoInfo: {
         id: '',
+        params: {
+          start: 0,
+        },
       },
       showSpinner: false,
       isPlaying: false,
@@ -58,6 +61,9 @@ export default {
         this.player.pauseVideo();
         this.buttonIcon = 'play_arrow';
       } else {
+        if (this.videoInfo.params) {
+          this.player.seekTo(this.videoInfo.params.start);
+        }
         this.player.playVideo();
         this.showSpinner = false;
       }
