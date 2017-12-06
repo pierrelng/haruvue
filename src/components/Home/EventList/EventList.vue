@@ -11,8 +11,11 @@
           <a :href="'/#/event/' + event.id">
             <img v-bind:src="event.details.cover_source">
           </a>
-          <div class="play" v-if="event.acf.youtube_music_url" @click="bottomPlay(event.acf.youtube_music_url, index)">
-            <i :id="index" class="material-icons icon" v-show="!showMusicSpinner" ref="feedCardPlayButton">{{ buttonIcon }}</i>
+          <div
+            class="play"
+            v-if="event.acf.youtube_music_url"
+            @click="bottomPlay(event.acf.youtube_music_url, index, event.id, event.title.rendered)">
+            <i :id="index" class="material-icons icon" v-show="!showMusicSpinner" ref="feedCardPlayButton" role="button">{{ buttonIcon }}</i>
             <mt-spinner v-show="showMusicSpinner" type="fading-circle" :size="20" color="#4F4F4F"></mt-spinner>
           </div>
         </div>
@@ -80,11 +83,13 @@ export default {
       this.searched_tag = data;
     });
     bus.$on('updatePlayPauseButton', (data) => {
-      this.$refs.feedCardPlayButton.forEach((el, i) => {
-        if (el.id === data.indexPlaying.toString()) {
-          this.$refs.feedCardPlayButton[i].innerHTML = data.buttonIcon;
-        }
-      });
+      if (this.$refs.feedCardPlayButton) {
+        this.$refs.feedCardPlayButton.forEach((el, i) => {
+          if (el.id === data.indexPlaying.toString()) {
+            this.$refs.feedCardPlayButton[i].innerHTML = data.buttonIcon;
+          }
+        });
+      }
     });
     bus.$on('showSpinner', (data) => {
       this.showMusicSpinner = data;
@@ -131,7 +136,7 @@ export default {
         });
       }, 5);
     },
-    bottomPlay(youtubeUrl, index) {
+    bottomPlay(youtubeUrl, index, eventId, eventName) {
       if (this.indexPlaying !== 'none') {
         this.$refs.feedCardPlayButton.forEach((el, i) => {
           if (el.id === this.indexPlaying.toString()) {
@@ -140,7 +145,7 @@ export default {
         });
       }
       this.indexPlaying = index;
-      bus.$emit('bottomPlay', { youtubeUrl, index });
+      bus.$emit('bottomPlay', { youtubeUrl, index, eventId, eventName });
     },
     // isConcert(tagArray) {
     //   let concert = false;

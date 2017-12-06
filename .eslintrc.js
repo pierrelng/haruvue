@@ -39,5 +39,6 @@ module.exports = {
       ignoreComments: true,
       ignoreRegExpLiterals: true // https://eslint.org/docs/rules/max-len#options
     }],
+    'no-console': 0,
   }
 }

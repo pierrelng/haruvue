@@ -1,6 +1,7 @@
 <template>
-  <div class="bottom-nav" :class="{ showBottomBar: displayBottomBar }">
-    <youtube
+  <div class="bottom-nav">
+    <!-- <div id="player"></div> -->
+    <gajus
       :video-id="videoInfo.id"
       ref="youtube"
       :height="'0'"
@@ -12,23 +13,24 @@
       @buffering="buffering"
       @playing="playing"
       @paused="paused">
-    </youtube>
+    </gajus>
     <div class="playPause">
-      <i class="material-icons icon" v-show="!showSpinner" @click="playPauseSimple" role="button">{{ buttonIcon }}</i>
+      <i class="material-icons icon" v-show="!showSpinner" @click="playPauseSimple">{{ buttonIcon }}</i>
       <mt-spinner class="spinner" v-show="showSpinner" type="fading-circle" :size="24" color="#EEEEEE"></mt-spinner>
     </div>
-    <i class="material-icons rewind" @click="rewind" role="button">replay_30</i>
-    <i class="material-icons fastForward" @click="fastForward" role="button">forward_30</i>
-    <a class="eventName" :href="'/#/event/' + eventPlaying.id" v-html="eventPlaying.name"></a>
   </div>
 </template>
 
 <script>
 import bus from '@/main';
 import urlParser from 'js-video-url-parser'; // https://github.com/Zod-/jsVideoUrlParser
+import Gajus from '@/components/BottomNav/Gajus';
 
 export default {
   name: 'bottomNav',
+  components: {
+    gajus: Gajus,
+  },
   data() {
     return {
       playerVars: {
@@ -51,21 +53,14 @@ export default {
       isPlaying: false,
       buttonIcon: '',
       indexPlaying: 'none',
-      eventPlaying: {
-        id: '',
-        name: '',
-      },
-      displayBottomBar: false,
+      // player: '',
     };
   },
   created() {
     bus.$on('bottomPlay', (data) => {
-      this.displayBottomBar = true;
       this.videoInfo = urlParser.parse(data.youtubeUrl);
       this.indexPlaying = data.index;
       this.playPause();
-      this.eventPlaying.id = data.eventId;
-      this.eventPlaying.name = data.eventName;
     });
   },
   methods: {
@@ -74,7 +69,12 @@ export default {
         this.player.pauseVideo();
         this.buttonIcon = 'play_arrow';
       } else {
-        this.player.playVideo();
+        if (this.videoInfo.params) {
+          this.player.seekTo(this.videoInfo.params.start);
+          this.player.playVideo();
+        } else {
+          this.player.playVideo();
+        }
         this.showSpinner = false;
       }
     },
@@ -115,16 +115,6 @@ export default {
       this.isPlaying = false;
       this.showSpinner = false;
       this.buttonIcon = 'play_arrow';
-    },
-    fastForward() {
-      this.player.getCurrentTime().then((currentSeconds) => {
-        this.player.seekTo(currentSeconds + 30, true);
-      });
-    },
-    rewind() {
-      this.player.getCurrentTime().then((currentSeconds) => {
-        this.player.seekTo(currentSeconds - 30, true);
-      });
     },
   },
   computed: {

@@ -1,25 +1,20 @@
 <template>
-  <div class="bottom-nav" :class="{ showBottomBar: displayBottomBar }">
+  <div class="bottom-nav">
     <youtube
       :video-id="videoInfo.id"
       ref="youtube"
       :height="'0'"
       :width="'0'"
       :player-vars="playerVars"
-      @ready="ready"
-      @unstarted="unstarted"
       @cued="playPause"
       @buffering="buffering"
       @playing="playing"
       @paused="paused">
     </youtube>
     <div class="playPause">
-      <i class="material-icons icon" v-show="!showSpinner" @click="playPauseSimple" role="button">{{ buttonIcon }}</i>
+      <i class="material-icons icon" v-show="!showSpinner" @click="playPause">{{ buttonIcon }}</i>
       <mt-spinner class="spinner" v-show="showSpinner" type="fading-circle" :size="24" color="#EEEEEE"></mt-spinner>
     </div>
-    <i class="material-icons rewind" @click="rewind" role="button">replay_30</i>
-    <i class="material-icons fastForward" @click="fastForward" role="button">forward_30</i>
-    <a class="eventName" :href="'/#/event/' + eventPlaying.id" v-html="eventPlaying.name"></a>
   </div>
 </template>
 
@@ -51,21 +46,13 @@ export default {
       isPlaying: false,
       buttonIcon: '',
       indexPlaying: 'none',
-      eventPlaying: {
-        id: '',
-        name: '',
-      },
-      displayBottomBar: false,
     };
   },
   created() {
     bus.$on('bottomPlay', (data) => {
-      this.displayBottomBar = true;
       this.videoInfo = urlParser.parse(data.youtubeUrl);
       this.indexPlaying = data.index;
       this.playPause();
-      this.eventPlaying.id = data.eventId;
-      this.eventPlaying.name = data.eventName;
     });
   },
   methods: {
@@ -74,31 +61,12 @@ export default {
         this.player.pauseVideo();
         this.buttonIcon = 'play_arrow';
       } else {
+        if (this.videoInfo.params) {
+          this.player.seekTo(this.videoInfo.params.start);
+        }
         this.player.playVideo();
         this.showSpinner = false;
       }
-    },
-    playPauseSimple() {
-      if (this.isPlaying) {
-        this.player.pauseVideo();
-        this.buttonIcon = 'play_arrow';
-      } else {
-        this.player.playVideo();
-        this.showSpinner = false;
-      }
-    },
-    ready() {
-      console.log('ready');
-      this.showSpinner = false;
-      this.buttonIcon = 'play_arrow';
-    },
-    unstarted() {
-      console.log('unstarted');
-    },
-    cued() {
-      console.log('cued');
-      this.showSpinner = false;
-      this.buttonIcon = 'play_arrow';
     },
     buffering() {
       console.log('buffering');
@@ -116,15 +84,15 @@ export default {
       this.showSpinner = false;
       this.buttonIcon = 'play_arrow';
     },
-    fastForward() {
-      this.player.getCurrentTime().then((currentSeconds) => {
-        this.player.seekTo(currentSeconds + 30, true);
-      });
+    ready() {
+      console.log('ready');
+      this.showSpinner = false;
+      this.buttonIcon = 'play_arrow';
     },
-    rewind() {
-      this.player.getCurrentTime().then((currentSeconds) => {
-        this.player.seekTo(currentSeconds - 30, true);
-      });
+    cued() {
+      console.log('cued');
+      this.showSpinner = false;
+      this.buttonIcon = 'play_arrow';
     },
   },
   computed: {
