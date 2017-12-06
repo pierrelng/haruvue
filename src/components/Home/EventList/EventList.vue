@@ -41,7 +41,7 @@
     <p v-show="showSpinner" class="spinner">
       <mt-spinner type="triple-bounce"></mt-spinner>
     </p>
-    <p v-show="noEventsFound" style="text-align: center;">Fin de la liste</p>
+    <p class="noEventsFound" v-show="noEventsFound">C'est tout pour aujourd'hui !</p>
   </div>
 </template>
 
