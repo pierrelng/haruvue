@@ -3,7 +3,7 @@
     <ul class="list"
         v-infinite-scroll="loadMore"
         infinite-scroll-disabled="infiniteScrollDisabled"
-        infinite-scroll-distance="100"
+        infinite-scroll-distance="2000"
         infinite-scroll-immediate-check="false">
       <!-- <li v-for="event in events" v-if="isConcert(event.acf.tag_what_prod)"> -->
       <li v-for="(event, index) in events">
