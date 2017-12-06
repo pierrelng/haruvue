@@ -1,7 +1,7 @@
 <template>
   <div class="tags">
     <ul class="list scroll-x-wrapper">
-      <li class="list__item scroll-x-item" v-for="tag in this.tags">{{ tag }}</li>
+      <li class="list__item scroll-x-item" v-for="tag in this.tags" @click="search(tag)">{{ tag }}</li>
       <div class="shadow"></div>
     </ul>
     <!-- <div v-for="tag in this.event.acf.tag_what_genre" v-if="tag">{{ tag }}</div>
@@ -18,6 +18,7 @@
 
 <script>
 import iterateObject from 'iterate-object';
+import bus from '@/main';
 
 export default {
   name: 'tags',
@@ -54,6 +55,9 @@ export default {
           }
         }
       });
+    },
+    search(tag) {
+      bus.$emit('tagClicked', tag);
     },
   },
 };

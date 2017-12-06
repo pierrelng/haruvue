@@ -25,6 +25,10 @@ export default {
     if (this.$route.query.tag) {
       this.query = this.$route.query.tag;
     }
+    bus.$on('tagClicked', (tag) => {
+      this.query = tag;
+      this.search(tag);
+    });
   },
   methods: {
     search(data) {
