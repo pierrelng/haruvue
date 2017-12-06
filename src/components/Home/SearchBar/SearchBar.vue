@@ -33,6 +33,7 @@ export default {
     },
     clear() {
       this.query = '';
+      bus.$emit('search', '');
       this.$refs.searchInput.focus();
     },
   },
