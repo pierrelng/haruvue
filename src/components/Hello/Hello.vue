@@ -2,7 +2,7 @@
   <div class="wrapper">
     <div class="logo"></div>
     <p class="col lineHeight"><span class="bold">Hello copain, hello copine !</span></p>
-    <p class="intro col lineHeight">Bienvenue sur la beta. Nous sommes actuellement en version <span class="bold blue">0.2.0</span>, et voici ce qu'on peut faire pour le moment :</p>
+    <p class="intro col lineHeight">Bienvenue sur la beta. Nous sommes actuellement en version <span class="bold blue">0.3.0</span>, et voici ce qu'on peut faire pour le moment :</p>
     <ul class="col lineHeight">
       <li>Recherche par tag</li>
       <li>Liste non-exhaustive de catégories</li>
