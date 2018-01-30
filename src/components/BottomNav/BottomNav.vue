@@ -19,7 +19,7 @@
     </div>
     <i class="material-icons rewind" @click="rewind" role="button">replay_30</i>
     <i class="material-icons fastForward" @click="fastForward" role="button">forward_30</i>
-    <a class="eventName" :href="'/#/event/' + eventPlaying.id" v-html="eventPlaying.name"></a>
+    <router-link class="eventName" :to="{ name: 'Event', params: { id: eventPlaying.id }}" v-html="eventPlaying.name"></router-link>
   </div>
 </template>
 

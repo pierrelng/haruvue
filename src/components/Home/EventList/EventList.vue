@@ -8,9 +8,9 @@
       <!-- <li v-for="event in events" v-if="isConcert(event.acf.tag_what_prod)"> -->
       <li v-for="(event, index) in events">
         <div class="cover">
-          <a :href="'/#/event/' + event.id">
+          <router-link :to="{ name: 'Event', params: { id: event.id }}">
             <img v-bind:src="event.details.cover_source">
-          </a>
+          </router-link>
           <div
             class="play"
             v-if="event.acf.youtube_music_url"
@@ -19,7 +19,7 @@
             <mt-spinner v-show="showMusicSpinner" type="fading-circle" :size="20" color="#4F4F4F"></mt-spinner>
           </div>
         </div>
-        <a class="infos" :href="'/#/event/' + event.id">
+        <router-link class="infos" :to="{ name: 'Event', params: { id: event.id }}">
           <span class="title" v-html="event.title.rendered"></span>
           <span class="date">
             <i class="material-icons">schedule</i>
@@ -28,7 +28,7 @@
             - {{ [event.details.end_time[0], 'YYYY-MM-DD HH:mm:ss'] | moment('HH:mm') }}
           </span>
           <span class="venue" v-if="event.acf.venue[0].post_title"><i class="material-icons">place</i> {{ event.acf.venue[0].post_title }}</span>
-        </a>
+        </router-link>
         <div class="tagsAndReason">
           <tags :event="event"></tags>
           <div v-if="event.acf.why_go" class="coupdecoeur">

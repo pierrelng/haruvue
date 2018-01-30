@@ -9,7 +9,7 @@
     <p class="intro col lineHeight marginTop">
       En attendant, vous pouvez nous envoyez du love pour qu’on travaille encore mieux !
     </p>
-    <a href="/#/saythatyoulovemeee">Envoyer un max de love</a>
+    <a href="/saythatyoulovemeee">Envoyer un max de love</a>
   </div>
 </template>
 
