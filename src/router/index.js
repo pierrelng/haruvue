@@ -13,6 +13,16 @@ Vue.use(Router);
 
 export default new Router({
   mode: 'history',
+  scrollBehavior(to, from, savedPosition) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        if (savedPosition) {
+          console.log(savedPosition);
+          resolve(savedPosition);
+        }
+      }, 500);
+    });
+  },
   routes: [
     {
       path: '/',
