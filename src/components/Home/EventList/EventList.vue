@@ -72,8 +72,12 @@ export default {
     };
   },
   created() {
-    if (this.$route.query.tag) {
-      this.searched_tag = this.$route.query.tag;
+    if (this.$route.params.tag) {
+      this.searched_tag = this.$route.params.tag;
+    }
+    if (this.$route.query.j) {
+      this.selectedDay = this.$route.query.j;
+      bus.$emit('hasUrlDate', this.$route.query.j);
     }
     this.getEvents();
     bus.$on('datePicked', (data) => {
@@ -168,6 +172,16 @@ export default {
     searched_tag() {
       this.infiniteScrollDisabled = false;
       this.getEvents();
+    },
+    $route(to) {
+      if (to.params.tag && to.params.tag !== 'categories') {
+        this.searched_tag = to.params.tag;
+        bus.$emit('tagClicked', to.params.tag);
+      }
+      if (to.query.j) {
+        this.selectedDay = to.query.j;
+        bus.$emit('hasUrlDate', to.query.j);
+      }
     },
   },
 };

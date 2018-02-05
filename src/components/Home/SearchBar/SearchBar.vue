@@ -22,8 +22,8 @@ export default {
     };
   },
   created() {
-    if (this.$route.query.tag) {
-      this.query = this.$route.query.tag;
+    if (this.$route.params.tag) {
+      this.query = this.$route.params.tag;
     }
     bus.$on('tagClicked', (tag) => {
       this.query = tag;
@@ -39,6 +39,11 @@ export default {
       this.query = '';
       bus.$emit('search', '');
       this.$refs.searchInput.focus();
+      if (this.$route.query.j) {
+        this.$router.push({ path: '/', query: { j: this.$route.query.j } });
+      } else {
+        this.$router.push({ path: '/' });
+      }
     },
   },
 };

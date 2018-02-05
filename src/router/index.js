@@ -30,6 +30,16 @@ export default new Router({
       component: Home,
     },
     {
+      path: '/categories', // The earlier a route is defined, the higher priority it gets. https://router.vuejs.org/en/essentials/dynamic-matching.html
+      name: 'Categories',
+      component: Categories,
+    },
+    {
+      path: '/:tag',
+      name: 'Tag',
+      component: Home,
+    },
+    {
       path: '/event/:id',
       name: 'Event',
       component: Event,
@@ -44,11 +54,11 @@ export default new Router({
       name: 'Organizer',
       component: Organizer,
     },
-    {
-      path: '/categories',
-      name: 'Categories',
-      component: Categories,
-    },
+    // {
+    //   path: '/tag/:tag',
+    //   name: 'Tag',
+    //   component: Home,
+    // },
     // {
     //   path: '/',
     //   name: 'Hello',
