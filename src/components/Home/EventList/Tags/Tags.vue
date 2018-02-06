@@ -1,9 +1,14 @@
 <template>
   <div class="tags">
     <ul class="list scroll-x-wrapper">
-      <li class="list__item scroll-x-item" v-for="tag in this.tags" @click="search(tag)">
+      <li
+        class="list__item scroll-x-item"
+        v-for="(tag, index) in this.tags"
+        :ref="tag"
+        :class="{ 'list__item--active': isActive === tag }"
+        @click="search(tag, index)">
+          {{ tag }}
         <!-- <router-link :to="{ name: 'Tag', params: { tag: tag } }">{{ tag }}</router-link> -->
-        {{ tag }}
       </li>
       <div class="shadow"></div>
     </ul>
@@ -29,9 +34,13 @@ export default {
   data() {
     return {
       tags: [],
+      isActive: '',
     };
   },
   created() {
+    if (this.$route.params.tag) {
+      this.isActive = this.$route.params.tag;
+    }
     this.prepareTags();
   },
   methods: {
@@ -43,6 +52,11 @@ export default {
       this.iterator(this.event.acf, 'tag_what_public');
       this.iterator(this.event.acf, 'tag_what_activities');
       this.iterator(this.event.acf, 'tag_what_atmos_misc');
+      if (this.isActive !== '') {
+        const index = this.tags.indexOf(this.isActive);
+        this.tags.splice(index, 1);
+        this.tags.unshift(this.isActive);
+      }
     },
     iterator(object, tagLabel) {
       iterateObject(object, (value, key) => {
