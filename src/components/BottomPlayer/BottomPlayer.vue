@@ -1,5 +1,5 @@
 <template>
-  <div class="bottom-nav" :class="{ showBottomBar: displayBottomBar }">
+  <div class="bottom-player" :class="{ showBottomBar: displayBottomBar }">
     <youtube
       :video-id="videoInfo.id"
       ref="youtube"
@@ -28,7 +28,7 @@ import bus from '@/main';
 import urlParser from 'js-video-url-parser'; // https://github.com/Zod-/jsVideoUrlParser
 
 export default {
-  name: 'bottomNav',
+  name: 'bottomPlayer',
   data() {
     return {
       playerVars: {
@@ -143,4 +143,4 @@ export default {
 };
 </script>
 
-<style lang="stylus" src="./BottomNav.styl"></style>
+<style lang="stylus" src="./BottomPlayer.styl"></style>
