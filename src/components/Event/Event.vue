@@ -38,6 +38,13 @@
           <div class="map"></div>
         </a>
       </div>
+      <div v-else class="location">
+        <i class="material-icons">place</i>
+        <span>{{ free_address }}</span>
+        <a :href="'http://maps.google.com/?q=' + free_address">
+          <div class="map"></div>
+        </a>
+      </div>
       <!-- Tickets -->
       <div class="row3">
         <a v-if="event.acf.billetterie_url" class="tickets" :href="event.acf.billetterie_url">
@@ -192,6 +199,12 @@ export default {
         this.canBeTruncated = true;
         this.isTruncated = true;
       }
+    },
+  },
+  computed: {
+    free_address() {
+      // eslint-disable-next-line
+      return `${this.event.acf.free_address_street}, ${this.event.acf.free_address_postcode} ${this.event.acf.free_address_city}`;
     },
   },
 };
