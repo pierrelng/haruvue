@@ -12,6 +12,8 @@ img
   margin: 25px 0 0
   padding: 0
   li
+    position: relative
+  .overflowww
     background-color: $cod-gray
     border-radius: 15px
     box-shadow: 0 3px 5px 1px $black
@@ -42,7 +44,8 @@ img
       .venue
         margin-top: 3px
     .tagsAndReason
-      padding: 0 10px 10px
+      // padding: 0 10px 10px
+      padding: 5px 0 10px
       .coupdecoeur
         align-items: center
         display: flex
@@ -71,6 +74,35 @@ a
 
 .cover
   position: relative
+
+.enunmot
+  position: absolute
+  z-index: 2
+  top: 15px
+  left: 5px
+  padding: 2px 12px
+  font-size: $regular-font
+  font-weight: 600
+  text-transform: uppercase
+  box-shadow: 0 5px 10px rgba(0, 0, 0, .19), 0 3px 3px rgba(0, 0, 0, .23)
+  &.black
+    background-color: $black
+  &.green
+    background-color: $rock-green
+  &.pink
+    background-color: $pop-pink
+  &.blue
+    background-color: $house-blue
+  &.violet
+    background-color: $techno-violet
+  &.yellow
+    background-color: $latin-yellow
+  &.orange
+    background-color: $hiphop-orange
+  &.turquoise
+    background-color: $jazz-turquoise
+  &.red
+    background-color: $electro-red
 
 .play
   align-items: center

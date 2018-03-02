@@ -7,34 +7,38 @@
         infinite-scroll-immediate-check="false">
       <!-- <li v-for="event in events" v-if="isConcert(event.acf.tag_what_prod)"> -->
       <li v-for="(event, index) in events">
-        <div class="cover">
-          <router-link :to="{ name: 'Event', params: { id: event.id }}">
-            <img v-bind:src="event.details.cover_source">
+        <div v-if="event.acf.enunmot" class="enunmot" :class="getClassColor(event.acf.genre_principal)">{{ event.acf.enunmot }}</div>
+        <div class="overflowww">
+          <div class="cover">
+            <router-link :to="{ name: 'Event', params: { id: event.id }}">
+              <img v-bind:src="event.details.cover_source">
+            </router-link>
+            <div
+              class="play"
+              v-if="event.acf.youtube_music_url"
+              @click="bottomPlay(event.acf.youtube_music_url, index, event.id, event.title.rendered)">
+              <i :id="index" class="material-icons icon" v-show="!showMusicSpinner" ref="feedCardPlayButton" role="button">{{ buttonIcon }}</i>
+              <mt-spinner v-show="showMusicSpinner" type="fading-circle" :size="20" color="#4F4F4F"></mt-spinner>
+            </div>
+          </div>
+          <router-link class="infos" :to="{ name: 'Event', params: { id: event.id }}">
+            <!-- <span class="title" v-html="event.title.rendered"></span> -->
+            <div class="tagsAndReason">
+              <tags :event="event"></tags>
+              <div v-if="event.acf.why_go" class="coupdecoeur">
+                <span class="heartIcon"></span>
+                <span class="reasonWhy"><span>On kiffe :</span> {{ event.acf.why_go }}</span>
+              </div>
+            </div>
+            <span class="date">
+              <i class="material-icons">schedule</i>
+              <span class="date-start">{{ [event.details.start_time[0], 'YYYY-MM-DD HH:mm:ss'] | moment('dddd DD MMM') }}</span>
+              {{ [event.details.start_time[0], 'YYYY-MM-DD HH:mm:ss'] | moment(' [de] HH:mm') }}
+              - {{ [event.details.end_time[0], 'YYYY-MM-DD HH:mm:ss'] | moment('HH:mm') }}
+            </span>
+            <span class="venue" v-if="event.acf.venue && event.acf.venue[0].post_title"><i class="material-icons">place</i> {{ event.acf.venue[0].post_title }}</span>
+            <span class="venue" v-else><i class="material-icons">place</i>{{ event.acf.free_address_postcode }} {{ event.acf.free_address_city }} </span>
           </router-link>
-          <div
-            class="play"
-            v-if="event.acf.youtube_music_url"
-            @click="bottomPlay(event.acf.youtube_music_url, index, event.id, event.title.rendered)">
-            <i :id="index" class="material-icons icon" v-show="!showMusicSpinner" ref="feedCardPlayButton" role="button">{{ buttonIcon }}</i>
-            <mt-spinner v-show="showMusicSpinner" type="fading-circle" :size="20" color="#4F4F4F"></mt-spinner>
-          </div>
-        </div>
-        <router-link class="infos" :to="{ name: 'Event', params: { id: event.id }}">
-          <span class="title" v-html="event.title.rendered"></span>
-          <span class="date">
-            <i class="material-icons">schedule</i>
-            <span class="date-start">{{ [event.details.start_time[0], 'YYYY-MM-DD HH:mm:ss'] | moment('dddd DD MMM') }}</span>
-            {{ [event.details.start_time[0], 'YYYY-MM-DD HH:mm:ss'] | moment(' [de] HH:mm') }}
-            - {{ [event.details.end_time[0], 'YYYY-MM-DD HH:mm:ss'] | moment('HH:mm') }}
-          </span>
-          <span class="venue" v-if="event.acf.venue[0].post_title"><i class="material-icons">place</i> {{ event.acf.venue[0].post_title }}</span>
-        </router-link>
-        <div class="tagsAndReason">
-          <tags :event="event"></tags>
-          <div v-if="event.acf.why_go" class="coupdecoeur">
-            <span class="heartIcon"></span>
-            <span class="reasonWhy"><span>On kiffe :</span> {{ event.acf.why_go }}</span>
-          </div>
         </div>
       </li>
     </ul>
@@ -163,6 +167,35 @@ export default {
     //   }
     //   return true;
     // },
+    getClassColor(genre) {
+      if (genre) {
+        if (genre[0].search('rock') >= 0 || genre[0].search('Rock') >= 0) {
+          return 'green';
+        }
+        if (genre[0].search('pop') >= 0 || genre[0].search('Pop') >= 0) {
+          return 'pink';
+        }
+        if (genre[0].search('house') >= 0 || genre[0].search('House') >= 0) {
+          return 'blue';
+        }
+        if (genre[0].search('techno') >= 0 || genre[0].search('Techno') >= 0) {
+          return 'violet';
+        }
+        if (genre[0].search('latin') >= 0 || genre[0].search('Latin') >= 0) {
+          return 'yellow';
+        }
+        if (genre[0].search('hiphop') >= 0 || genre[0].search('Hip') >= 0) {
+          return 'orange';
+        }
+        if (genre[0].search('jazz') >= 0 || genre[0].search('Jazz') >= 0) {
+          return 'turquoise';
+        }
+        if (genre[0].search('electro') >= 0 || genre[0].search('Electro') >= 0) {
+          return 'red';
+        }
+      }
+      return 'black';
+    },
   },
   watch: {
     selectedDay() {
