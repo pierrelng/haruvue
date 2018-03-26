@@ -62,10 +62,13 @@ export default {
     bus.$on('bottomPlay', (data) => {
       this.displayBottomBar = true;
       this.videoInfo = urlParser.parse(data.youtubeUrl);
-      this.indexPlaying = data.index;
+      if (data.index) {
+        this.indexPlaying = data.index;
+      }
       this.playPause();
       this.eventPlaying.id = data.eventId;
       this.eventPlaying.name = data.eventName;
+      this.eventPlaying.name = `${data.eventName.substring(0, 35)}...`;
     });
   },
   methods: {
