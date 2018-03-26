@@ -11,7 +11,7 @@ import Categories from '@/components/Categories/Categories';
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   scrollBehavior(to, from, savedPosition) {
     return new Promise((resolve) => {
@@ -28,6 +28,7 @@ export default new Router({
       path: '/',
       name: 'Home',
       component: Home,
+      // component: Hello,
     },
     {
       path: '/categories', // The earlier a route is defined, the higher priority it gets. https://router.vuejs.org/en/essentials/dynamic-matching.html
@@ -81,3 +82,85 @@ export default new Router({
     // },
   ],
 });
+
+
+export default router;
+
+// router.beforeEach((to, from, next) => {
+//   console.log(to);
+//   if (to.path !== '/') {
+//     next('/');
+//   }
+//   next();
+// });
+
+// export default new Router({
+//   mode: 'history',
+//   scrollBehavior(to, from, savedPosition) {
+//     return new Promise((resolve) => {
+//       setTimeout(() => {
+//         if (savedPosition) {
+//           console.log(savedPosition);
+//           resolve(savedPosition);
+//         }
+//       }, 500);
+//     });
+//   },
+//   routes: [
+//     {
+//       path: '/',
+//       name: 'Home',
+//       component: Home,
+//     },
+//     {
+//       path: '/categories', // The earlier a route is defined, the higher priority it gets. https://router.vuejs.org/en/essentials/dynamic-matching.html
+//       name: 'Categories',
+//       component: Categories,
+//     },
+//     {
+//       path: '/:tag',
+//       name: 'Tag',
+//       component: Home,
+//     },
+//     {
+//       path: '/event/:id',
+//       name: 'Event',
+//       component: Event,
+//     },
+//     {
+//       path: '/lieu/:id',
+//       name: 'Venue',
+//       component: Venue,
+//     },
+//     {
+//       path: '/organisateur/:id',
+//       name: 'Organizer',
+//       component: Organizer,
+//     },
+//     // {
+//     //   path: '/tag/:tag',
+//     //   name: 'Tag',
+//     //   component: Home,
+//     // },
+//     // {
+//     //   path: '/',
+//     //   name: 'Hello',
+//     //   component: Hello,
+//     // },
+//     // {
+//     //   path: '/',
+//     //   name: 'Standby',
+//     //   component: Standby,
+//     // },
+//     // {
+//     //   path: '/home',
+//     //   name: 'Standby',
+//     //   component: Standby,
+//     // },
+//     // {
+//     //   path: '/saythatyoulovemeee',
+//     //   name: 'Love',
+//     //   component: Love,
+//     // },
+//   ],
+// });

@@ -21,7 +21,7 @@
               <mt-spinner v-show="showMusicSpinner" type="fading-circle" :size="20" color="#4F4F4F"></mt-spinner>
             </div>
           </div>
-          <router-link class="infos" :to="{ name: 'Event', params: { id: event.id }}">
+          <div class="infos">
             <!-- <span class="title" v-html="event.title.rendered"></span> -->
             <div class="tagsAndReason">
               <tags :event="event"></tags>
@@ -38,7 +38,7 @@
             </span>
             <span class="venue" v-if="event.acf.venue && event.acf.venue[0].post_title"><i class="material-icons">place</i> {{ event.acf.venue[0].post_title }}</span>
             <span class="venue" v-else><i class="material-icons">place</i>{{ event.acf.free_address_postcode }} {{ event.acf.free_address_city }} </span>
-          </router-link>
+          </div>
         </div>
       </li>
     </ul>
