@@ -38,10 +38,10 @@ export default {
     };
   },
   created() {
+    this.prepareTags();
     if (this.$route.params.tag) {
       this.isActive = this.$route.params.tag;
     }
-    this.prepareTags();
   },
   methods: {
     prepareTags() {

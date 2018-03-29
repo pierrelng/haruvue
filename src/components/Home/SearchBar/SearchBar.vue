@@ -2,9 +2,9 @@
   <div>
 
     <form class="form" @submit.prevent>
-      <input class="form__input" v-model="query" placeholder="(1 seul tag par recherche for now...)" ref="searchInput">
+      <input class="form__input" v-model="query" placeholder="Filtrer avec un tag" ref="searchInput">
       <div class="clear" @click="clear()" v-show="query">X</div>
-      <input class="form__submit" type="submit" @click="search(query)" value="">
+      <input class="form__submit" type="submit" @click="search(query.toLowerCase())" value="">
       <router-link class="categoriesButton" :to="{ name: 'Categories' }"></router-link>
     </form>
 
@@ -34,6 +34,11 @@ export default {
     search(data) {
       // emit event with payload (searched tag) -> bus -> catched by EventList.vue -> update list accordingly
       bus.$emit('search', data);
+      if (this.$route.query.j) {
+        this.$router.push({ name: 'Tag', params: { tag: data }, query: { j: this.$route.query.j } });
+      } else {
+        this.$router.push({ name: 'Tag', params: { tag: data } });
+      }
     },
     clear() {
       this.query = '';
@@ -44,6 +49,11 @@ export default {
       } else {
         this.$router.push({ path: '/' });
       }
+    },
+  },
+  computed: {
+    cleanQuery() {
+      return this.query.toLowerCase();
     },
   },
 };
