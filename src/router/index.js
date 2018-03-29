@@ -17,7 +17,7 @@ const router = new Router({
     return new Promise((resolve) => {
       setTimeout(() => {
         if (savedPosition) {
-          console.log(savedPosition);
+          // console.log(savedPosition);
           resolve(savedPosition);
         }
       }, 500);

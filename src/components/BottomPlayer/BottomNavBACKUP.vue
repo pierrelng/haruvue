@@ -69,28 +69,28 @@ export default {
       }
     },
     buffering() {
-      console.log('buffering');
+      // console.log('buffering');
       this.showSpinner = true;
     },
     playing() {
-      console.log('playing');
+      // console.log('playing');
       this.isPlaying = true;
       this.showSpinner = false;
       this.buttonIcon = 'pause';
     },
     paused() {
-      console.log('paused');
+      // console.log('paused');
       this.isPlaying = false;
       this.showSpinner = false;
       this.buttonIcon = 'play_arrow';
     },
     ready() {
-      console.log('ready');
+      // console.log('ready');
       this.showSpinner = false;
       this.buttonIcon = 'play_arrow';
     },
     cued() {
-      console.log('cued');
+      // console.log('cued');
       this.showSpinner = false;
       this.buttonIcon = 'play_arrow';
     },
