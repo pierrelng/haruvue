@@ -83,7 +83,6 @@ const router = new Router({
   ],
 });
 
-
 export default router;
 
 // router.beforeEach((to, from, next) => {

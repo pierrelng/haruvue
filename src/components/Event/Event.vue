@@ -1,5 +1,11 @@
 <template>
   <div>
+    <!-- Back button -->
+    <div class="backButton" @click="back()">
+      <i class="material-icons arrowBack">arrow_back</i>
+      <div class="">Back</div>
+    </div>
+
     <!-- Img with player -->
     <div class="head">
       <img v-if="event" :src="event.details.cover_source">
@@ -166,6 +172,7 @@ export default {
       canBeTruncated: false,
       buttonIcon: 'queue_music',
       showMusicSpinner: false,
+      fromHome: false,
     };
   },
   created() {
@@ -176,6 +183,9 @@ export default {
     bus.$on('updatePlayPauseButton', (data) => {
       this.$refs.eventCoverPlayButton.innerHTML = data.buttonIcon;
     });
+    if (this.$route.params.origin === 'home') {
+      this.fromHome = true;
+    }
   },
   updated() {
     this.decideTruncate();
@@ -218,6 +228,13 @@ export default {
     },
     bottomPlay(youtubeUrl, eventId, eventName) {
       bus.$emit('bottomPlay', { youtubeUrl, eventId, eventName });
+    },
+    back() {
+      if (this.fromHome) {
+        this.$router.go(-1);
+      } else {
+        this.$router.push({ name: 'Home' });
+      }
     },
   },
   computed: {

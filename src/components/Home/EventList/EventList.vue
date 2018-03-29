@@ -10,7 +10,7 @@
         <div v-if="event.acf.enunmot" class="enunmot" :class="getClassColor(event.acf.genre_principal)">{{ event.acf.enunmot }}</div>
         <div class="overflowww">
           <div class="cover">
-            <router-link :to="{ name: 'Event', params: { id: event.id }}">
+            <router-link :to="{ name: 'Event', params: { id: event.id, origin: 'home' }}">
               <img v-bind:src="event.details.cover_source">
             </router-link>
             <div
