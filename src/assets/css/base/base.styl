@@ -10,28 +10,89 @@ body
 p
   line-height: 19px
 
+.col-left,
+.col-right
+  display: none
+
 @media screen and (min-width: 961px)
   html
     height: 100%
-    background-color: $black
-
+    background-color: $cod-gray
+    display: flex
+    align-items: center
     body
-      width: 300px
-      margin: auto
-      border-radius: 15px
-
-      #app
-        padding-bottom: 2px
+      display: flex
+      justify-content: space-between
+      background-color: transparent
+      margin: 0 auto
+      height: 100%
+      width: 100%
+      .phonewrapper
+        margin: auto 0
+        border: solid 4px $alto
+        border-radius: 30px
         background-color: $almost-black
-        border-radius: 15px
-
-        .bottom-player
-          width: 300px
-          left: 50%
-          transform: translateX(-50%)
+        height: 90vh
+        overflow: auto
+        // position: relative
+        z-index: 9999
+        &::-webkit-scrollbar
+          display: none
+        #app
+          height: 100%
+          width: 360px
+          padding-bottom: 2px
+          background-color: $almost-black
+          border-radius: 15px
+          position: relative
+          .bottom-player
+            width: 360px
+            bottom: 5vh
+            left: 50%
+            transform: translateX(-50%)
+      .col-left,
+      .col-right
+        display: block
+        color: $alabaster
+        flex: 1
+        margin: 25px
+        padding: 15px
+        // background-color: black
+        font-size: $small-font
+      .col-left
+        display: flex
+        flex-direction: column
+        align-items: flex-end
+        .logo
+          background-image: url('~@/assets/images/logo_white.png')
+          background-position: center
+          background-size: 100%
+          width: 190px
+          height: 100px
+          margin: 5px 0
+        h1
+          text-align: right
+          width: 360px
+        .social
+          display: flex
+          .facebook,
+          .instagram
+            height: 40px
+            width: 40px
+            margin-left: 15px
+            // background-color: $white
+            background-position: center
+            &:hover
+              opacity: .5
+          .facebook
+            background-image: url('~@/assets/images/icons/facebook_white.png')
+            background-size: 95%
+          .instagram
+            background-image: url('~@/assets/images/icons/instagram_white_larger.png')
+            background-size: 100%
 
       img
         height: ((.94*400px) / (16/9)) !important
 
       .logo
-        height: .80*400px !important
+        // height: .80*400px !important
