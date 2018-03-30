@@ -38,10 +38,10 @@ export default {
     };
   },
   created() {
-    this.prepareTags();
     if (this.$route.params.tag) {
       this.isActive = this.$route.params.tag;
     }
+    this.prepareTags();
   },
   methods: {
     prepareTags() {
@@ -52,6 +52,7 @@ export default {
       this.iterator(this.event.acf, 'tag_what_public');
       this.iterator(this.event.acf, 'tag_what_activities');
       this.iterator(this.event.acf, 'tag_what_atmos_misc');
+      this.iterator(this.event.acf, 'tag_selecta');
       if (this.isActive !== '') {
         const index = this.tags.indexOf(this.isActive);
         this.tags.splice(index, 1);
