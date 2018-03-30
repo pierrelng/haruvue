@@ -5,7 +5,7 @@
       <input class="form__input" v-model="query" placeholder="Filtrer avec un tag" ref="searchInput">
       <div class="clear" @click="clear()" v-show="query">X</div>
       <input class="form__submit" type="submit" @click="search(query.toLowerCase())" value="">
-      <router-link class="categoriesButton" :to="{ name: 'Categories' }"></router-link>
+      <router-link class="categoriesButton" :to="{ name: 'Categories', params: { origin: 'home' }}"></router-link>
     </form>
 
   </div>
