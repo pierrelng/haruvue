@@ -32,9 +32,9 @@ export default {
   data() {
     return {
       playerVars: {
-        autoplay: 0,
+        autoplay: 1,
         controls: 0,
-        origin: '',
+        origin: 'https://haruapp.fr',
         playsinline: 1,
         rel: 0,
         showinfo: 0,
