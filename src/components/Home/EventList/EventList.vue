@@ -11,15 +11,15 @@
         <div class="overflowww">
           <div class="cover">
             <router-link :to="{ name: 'Event', params: { id: event.id, origin: 'home' }}">
-              <img v-bind:src="event.details.cover_source">
+              <img v-if="event.details.cover_source" v-bind:src="event.details.cover_source">
+              <img v-else v-bind:src="event.acf.cover_image">
             </router-link>
-            <div
-              class="play"
+            <play
               v-if="event.acf.youtube_music_url"
-              @click="bottomPlay(event.acf.youtube_music_url, index, event.id, event.title.rendered)">
-              <i :id="index" class="material-icons icon" v-show="!showMusicSpinner" ref="feedCardPlayButton" role="button">{{ buttonIcon }}</i>
-              <mt-spinner v-show="showMusicSpinner" type="fading-circle" :size="20" color="#4F4F4F"></mt-spinner>
-            </div>
+              :music-url="event.acf.youtube_music_url"
+              :event-id="event.id"
+              :event-name="event.title.rendered">
+            </play>
           </div>
           <div class="infos">
             <!-- <span class="title" v-html="event.title.rendered"></span> -->
@@ -30,14 +30,16 @@
                 <span class="reasonWhy"><span>On kiffe :</span> {{ event.acf.why_go }}</span>
               </div>
             </div>
-            <span class="date">
-              <i class="material-icons">schedule</i>
-              <span class="date-start">{{ [event.details.start_time[0], 'YYYY-MM-DD HH:mm:ss'] | moment('dddd DD MMM') }}</span>
-              {{ [event.details.start_time[0], 'YYYY-MM-DD HH:mm:ss'] | moment(' [de] HH:mm') }}
-              - {{ [event.details.end_time[0], 'YYYY-MM-DD HH:mm:ss'] | moment('HH:mm') }}
-            </span>
-            <span class="venue" v-if="event.acf.venue && event.acf.venue[0].post_title"><i class="material-icons">place</i> {{ event.acf.venue[0].post_title }}</span>
-            <span class="venue" v-else><i class="material-icons">place</i>{{ event.acf.free_address_postcode }} {{ event.acf.free_address_city }} </span>
+            <router-link :to="{ name: 'Event', params: { id: event.id, origin: 'home' }}">
+              <span class="date">
+                <i class="material-icons">schedule</i>
+                <span class="date-start">{{ [event.details.start_time[0], 'YYYY-MM-DD HH:mm:ss'] | moment('dddd DD MMM') }}</span>
+                {{ [event.details.start_time[0], 'YYYY-MM-DD HH:mm:ss'] | moment(' [de] HH:mm') }}
+                - {{ [event.details.end_time[0], 'YYYY-MM-DD HH:mm:ss'] | moment('HH:mm') }}
+              </span>
+              <span class="venue" v-if="event.acf.venue && event.acf.venue[0].post_title"><i class="material-icons">place</i> {{ event.acf.venue[0].post_title }}</span>
+              <span class="venue" v-else><i class="material-icons">place</i>{{ event.acf.free_address_postcode }} {{ event.acf.free_address_city }} </span>
+            </router-link>
           </div>
         </div>
       </li>
@@ -46,19 +48,27 @@
       <mt-spinner type="triple-bounce"></mt-spinner>
     </p>
     <p class="noEventsFound" v-show="noEventsFound">C'est tout pour aujourd'hui !</p>
+    <p class="noEventsFound" v-show="noEventsFound && searched_tag">Liste filtrée avec le tag "{{ searched_tag }}".</p>
+    <div
+      class="reset"
+      v-show="noEventsFound && searched_tag"
+      @click="reset()">
+        Retirer le filtre
+    </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
 import bus from '@/main';
-import YoutubeIframe from '@/components/Home/EventList/Youtube/Youtube';
+import Play from '@/components/Home/EventList/Play/Play';
 import Tags from '@/components/Home/EventList/Tags/Tags';
+import urlParser from 'js-video-url-parser'; // https://github.com/Zod-/jsVideoUrlParser
 
 export default {
   name: 'eventList',
   components: {
-    'youtube-iframe': YoutubeIframe,
+    play: Play,
     tags: Tags,
   },
   data() {
@@ -71,7 +81,6 @@ export default {
       searched_tag: '',
       showSpinner: false,
       showMusicSpinner: false,
-      buttonIcon: 'queue_music',
       indexPlaying: 'none',
     };
   },
@@ -89,15 +98,6 @@ export default {
     });
     bus.$on('search', (data) => {
       this.searched_tag = data;
-    });
-    bus.$on('updatePlayPauseButton', (data) => {
-      if (this.$refs.feedCardPlayButton) {
-        this.$refs.feedCardPlayButton.forEach((el, i) => {
-          if (el.id === data.indexPlaying.toString()) {
-            this.$refs.feedCardPlayButton[i].innerHTML = data.buttonIcon;
-          }
-        });
-      }
     });
     bus.$on('showSpinner', (data) => {
       this.showMusicSpinner = data;
@@ -144,29 +144,6 @@ export default {
         });
       }, 5);
     },
-    bottomPlay(youtubeUrl, index, eventId, eventName) {
-      if (this.indexPlaying !== 'none') {
-        this.$refs.feedCardPlayButton.forEach((el, i) => {
-          if (el.id === this.indexPlaying.toString()) {
-            this.$refs.feedCardPlayButton[i].innerHTML = 'queue_music';
-          }
-        });
-      }
-      this.indexPlaying = index;
-      bus.$emit('bottomPlay', { youtubeUrl, index, eventId, eventName });
-    },
-    // isConcert(tagArray) {
-    //   let concert = false;
-    //   tagArray.forEach((tag) => {
-    //     if (tag === 'concert') {
-    //       concert = true;
-    //     }
-    //   });
-    //   if (concert) {
-    //     return false;
-    //   }
-    //   return true;
-    // },
     getClassColor(genre) {
       if (genre) {
         if (genre[0].search('rock') >= 0 || genre[0].search('Rock') >= 0) {
@@ -196,6 +173,20 @@ export default {
       }
       return 'black';
     },
+    reset() {
+      bus.$emit('clearTag');
+    },
+  },
+  computed: {
+    iframeList() {
+      const list = [];
+      this.events.forEach((el) => {
+        if (el.acf.youtube_music_url) {
+          list.push({ eventId: el.id, video: urlParser.parse(el.acf.youtube_music_url) });
+        }
+      });
+      return list;
+    },
   },
   watch: {
     selectedDay() {
@@ -215,6 +206,9 @@ export default {
         this.selectedDay = to.query.j;
         bus.$emit('hasUrlDate', to.query.j);
       }
+    },
+    events() {
+      bus.$emit('updateIframeList', this.iframeList);
     },
   },
 };

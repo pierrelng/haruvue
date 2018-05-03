@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <form class="form" @submit.prevent>
+    <form class="form" @submit.prevent action="">
       <input class="form__input" v-model="query" placeholder="Filtrer avec un tag" ref="searchInput">
       <div class="clear" @click="clear()" v-show="query">X</div>
       <input class="form__submit" type="submit" @click="search(query.toLowerCase())" value="">
@@ -29,6 +29,9 @@ export default {
       this.query = tag;
       this.search(tag);
     });
+    bus.$on('clearTag', () => {
+      this.clear(false);
+    });
   },
   methods: {
     search(data) {
@@ -40,10 +43,12 @@ export default {
         this.$router.push({ name: 'Tag', params: { tag: data } });
       }
     },
-    clear() {
+    clear(focus) {
       this.query = '';
       bus.$emit('search', '');
-      this.$refs.searchInput.focus();
+      if (focus) {
+        this.$refs.searchInput.focus();
+      }
       if (this.$route.query.j) {
         this.$router.push({ path: '/', query: { j: this.$route.query.j } });
       } else {

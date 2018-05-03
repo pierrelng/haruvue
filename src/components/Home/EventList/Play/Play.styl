@@ -1,0 +1,25 @@
+@import '~@/assets/css/abstracts/variables'
+
+.playButtonnn
+  align-items: center
+  justify-content: center
+  background-color: white
+  border-radius: 90px
+  bottom: 16px
+  box-shadow: 0 0 5px 1px $black
+  color: $tundora
+  display: flex
+  height: 60px
+  position: absolute
+  right: 16px
+  width: 60px
+  .icon
+    font-size: $playPause-medium
+
+.clickMe
+  animation: bounce .5s 7 alternate
+
+@keyframes bounce
+  to
+    transform: scale(1.4)
+    color: $green-vue

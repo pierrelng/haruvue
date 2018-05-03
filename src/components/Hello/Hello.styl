@@ -1,7 +1,7 @@
 @import '~@/assets/css/abstracts/variables'
 
 .col
-  margin: 0 20px
+  margin: 0 40px
 
 .bold
   font-weight: 700
@@ -15,6 +15,14 @@
 .lineHeight
   line-height: 23px
 
+.containerCenter
+  display: flex
+  align-items: center
+  margin: 17% 0
+
+span
+  font-size: $small-font
+
 .wrapper
   color: $white
   display: flex
@@ -22,11 +30,14 @@
   justify-content: center
   margin-bottom: 40px
 
+
   .logo
-    background-image: url('~@/assets/images/beta_logo300ORI.png')
+    background-image: url('~@/assets/images/logo_white.png')
     background-position: center
-    background-size: 50%
-    height: 260px
+    background-size: 100%
+    width: 180px
+    height: 90px
+    margin: 0 auto 40px
 
   ul
     margin-top: 10px
@@ -34,7 +45,30 @@
     li
       padding-top: 10px
 
-a
+.last
+  margin-bottom: 20px
+
+.helloForm
+  display: flex
+  flex-direction: column
+  align-items: center
+  margin-bottom: 20px
+  .inputText
+    color: $white
+    background-color: transparent
+    border-top: none
+    border-left: none
+    border-right: none
+    margin-bottom: 10px
+    width: 70%
+    padding-bottom: 5px
+  textarea:focus,
+  input:focus
+    outline: 0
+    border-bottom-color: $beta-blue
+
+.submit
+  width: 100%
   color: $white
   background-color: $beta-blue
   border: 0
@@ -47,3 +81,7 @@ a
   margin: 30px 20px 0
   padding: 10px 0
   text-transform: uppercase
+  transition: background-color .5s
+
+.green
+  background-color: $green-vue

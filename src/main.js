@@ -5,8 +5,10 @@ import { InfiniteScroll, Spinner } from 'mint-ui'; // http://mint-ui.github.io/d
 import 'mint-ui/lib/style.css'; // http://mint-ui.github.io/docs/#/en2/quickstart
 import VueYoutube from 'vue-youtube';
 // import VueAnalytics from 'vue-analytics';
+import UUID from 'vue-uuid';
 import App from './App';
 import router from './router';
+import store from './store/store';
 
 Vue.use(InfiniteScroll);
 Vue.component(Spinner.name, Spinner); // http://mint-ui.github.io/docs/#/en2/spinner
@@ -28,6 +30,8 @@ Vue.use(VueYoutube); // https://github.com/anteriovieira/vue-youtube
 //   router,
 // });
 
+Vue.use(UUID); // https://github.com/VitorLuizC/vue-uuid
+
 Vue.config.productionTip = false;
 
 const bus = new Vue(); // https://www.youtube.com/watch?v=jzh4zQcfB0o
@@ -35,6 +39,7 @@ export default bus; // https://github.com/benmosher/eslint-plugin-import/blob/ma
 
 /* eslint-disable no-new */
 new Vue({
+  store,
   el: '#app',
   router,
   template: '<App/>',

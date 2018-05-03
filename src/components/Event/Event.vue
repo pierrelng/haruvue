@@ -7,16 +7,23 @@
     </div>
 
     <!-- Img with player -->
-    <div class="head">
-      <img v-if="event" :src="event.details.cover_source">
-      <div
+    <div class="head" v-if="event">
+      <img v-if="event.details.cover_source" :src="event.details.cover_source">
+      <img v-else :src="event.acf.cover_image">
+      <play
+        v-if="event.acf.youtube_music_url"
+        :music-url="event.acf.youtube_music_url"
+        :event-id="event.id"
+        :event-name="event.title.rendered"
+        :linked="linkedBottomPlayer">
+      </play>
+      <!-- <div
         class="play"
         v-if="event.acf.youtube_music_url"
-        @click="bottomPlay(event.acf.youtube_music_url, event.id, event.title.rendered)">
-        <i class="material-icons icon" v-show="!showMusicSpinner" ref="eventCoverPlayButton" role="button">{{ buttonIcon }}</i>
+        @click="togglePlayPause(event.acf.youtube_music_url, event.id, event.title.rendered)">
+        <i class="material-icons icon" v-show="!showMusicSpinner" role="button">{{ icon }}</i>
         <mt-spinner v-show="showMusicSpinner" type="fading-circle" :size="20" color="#4F4F4F"></mt-spinner>
-      </div>
-      <!-- <youtube-iframe class="play" v-if="event.acf.youtube_music_url" :url="event.acf.youtube_music_url"></youtube-iframe> -->
+      </div> -->
     </div>
 
     <!-- Date + Title -->
@@ -155,13 +162,13 @@
 
 <script>
 import axios from 'axios';
-import YoutubeIframe from '@/components/Home/EventList/Youtube/Youtube';
 import bus from '@/main';
+import Play from '@/components/Home/EventList/Play/Play';
 
 export default {
   name: 'event',
   components: {
-    'youtube-iframe': YoutubeIframe,
+    play: Play,
   },
   data() {
     return {
@@ -170,22 +177,25 @@ export default {
       organizer: '',
       isTruncated: false,
       canBeTruncated: false,
-      buttonIcon: 'queue_music',
+      icon: 'headset',
       showMusicSpinner: false,
       fromHome: false,
+      linkedBottomPlayer: false,
     };
   },
   created() {
     this.getEvent();
-    bus.$on('showSpinner', (data) => {
-      this.showMusicSpinner = data;
-    });
-    bus.$on('updatePlayPauseButton', (data) => {
-      this.$refs.eventCoverPlayButton.innerHTML = data.buttonIcon;
-    });
     if (this.$route.params.origin === 'home') {
       this.fromHome = true;
     }
+    bus.$on('showSpinner', (data) => {
+      this.showMusicSpinner = data;
+    });
+    // bus.$on('updatePlayPauseIcon', (payload) => {
+    //   if (this.linkedBottomPlayer) {
+    //     this.icon = payload.icon;
+    //   }
+    // });
   },
   updated() {
     this.decideTruncate();
@@ -195,11 +205,15 @@ export default {
       axios.get(`https://hosting.haruapp.fr/wp-json/haru/v1/events/${this.$route.params.id}`)
       .then((response) => {
         this.event = response.data;
-        if (this.event.acf.venue[0].ID) {
+        if (response.data.acf.venue[0].ID) {
           this.getVenue();
         }
-        if (this.event.acf.organizer[0].ID) {
+        if (response.data.acf.organizer) {
           this.getOrganizer();
+        }
+        console.log(this.$store.state);
+        if (response.data.id === this.$store.state.activePreview.event.id) {
+          this.linkedBottomPlayer = true;
         }
       });
     },
@@ -226,9 +240,9 @@ export default {
         this.isTruncated = true;
       }
     },
-    bottomPlay(youtubeUrl, eventId, eventName) {
-      bus.$emit('bottomPlay', { youtubeUrl, eventId, eventName });
-    },
+    // togglePlayPause(youtubeUrl, eventId, eventName) {
+    //   bus.$emit('togglePlayPause', { youtubeUrl, eventId, eventName });
+    // },
     back() {
       if (this.fromHome) {
         this.$router.go(-1);
@@ -242,6 +256,11 @@ export default {
       // eslint-disable-next-line
       return `${this.event.acf.free_address_street}, ${this.event.acf.free_address_postcode} ${this.event.acf.free_address_city}`;
     },
+    // icon() {
+    //   if (this.linkedBottomPlayer) {
+    //     return this.$store.state.activePreview.icon;
+    //   }
+    // },
   },
 };
 </script>
