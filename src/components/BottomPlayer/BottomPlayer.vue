@@ -77,11 +77,7 @@ export default {
         } else {
           console.log(`Load : ${this.videoInfo.id}`);
           this.firstLoad = true;
-          if (this.showSpinner) {
-            this.overrideBufferingBug = true;
-          } else {
-            this.overrideBufferingBug = false;
-          }
+          this.overrideBufferingBug = true;
           console.log(`bufferBug : ${this.overrideBufferingBug}`);
         }
       }
